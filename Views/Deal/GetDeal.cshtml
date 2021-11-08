@@ -1,0 +1,132 @@
+﻿@model GrainMaster.Models.DealRoot
+@{
+    ViewBag.Title = "Deal";
+    Layout = "~/Views/Shared/_master.cshtml";
+}
+
+
+<script src="~/JS/jquery-1.10.2.js"></script>
+<script src="~/JS/jquery.dataTables.min.js"></script>
+<script src="~/JS/dataTables.bootstrap4.min.js"></script>
+<link href="~/Content/dataTables.bootstrap4.min.css" rel="stylesheet" />
+
+
+<section id="tabs" class="project-tab">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <nav>
+                    <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="nav-onlybuy-tab" data-toggle="tab" href="#nav-onlybuy" role="tab" aria-controls="nav-onlybuy" aria-selected="true">Only Buy</a>
+                        <a class="nav-item nav-link" id="nav-onlysell-tab" data-toggle="tab" href="#nav-onlysell" role="tab" aria-controls="nav-onlysell" aria-selected="false">Only Sell</a>
+                        <a class="nav-item nav-link" id="nav-buygtsell-tab" data-toggle="tab" href="#nav-buygtsell" role="tab" aria-controls="nav-buygtsell" aria-selected="false">Buy Greater then Sell</a>
+                        <a class="nav-item nav-link" id="nav-sellgtbuy-tab" data-toggle="tab" href="#nav-sellgtbuy" role="tab" aria-controls="nav-sellgtbuy" aria-selected="false">Sell greater then Buy</a>
+                    </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-onlybuy" role="tabpanel" aria-labelledby="nav-onlybuy-tab">
+                        @*<table id="tblonlyBuy" class="table table-striped table-bordered" style="width:100%">*@
+                            <table id="tblonlyBuy" class="table text-nowrap mb-0" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Company</th>
+                                        <th>Total Quantity</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.OnlyBuy)
+                                    {
+                                        <tr>
+                                            <td><a href="#">@item.Company</a></td>
+                                            <td>@item.Quantity</td>
+                                            <td>@item.TranDate</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                    </div>
+                    <div class="tab-pane fade" id="nav-onlysell" role="tabpanel" aria-labelledby="nav-onlysell-tab">
+                        <table id="tblOnlySell" class="table text-nowrap mb-0" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Company</th>
+                                    <th>Total Quantity</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.OnlySell)
+                                {
+                                    <tr>
+                                        <td><a href="#">@item.Company</a></td>
+                                        <td>@item.Quantity</td>
+                                        <td>@item.TranDate</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane fade" id="nav-buygtsell" role="tabpanel" aria-labelledby="nav-buygtsell-tab">
+                        <table id="tblSellGTBuy" class="table text-nowrap mb-0" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Company</th>
+                                    <th>Total Buy Quantity</th>
+                                    <th>Total Sell Quantity</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.BuyGTSell)
+                                {
+                                <tr>
+                                    <td><a href="#">@item.Company</a></td>
+                                    <td>@item.TotalBuyQuantity</td>
+                                    <td>@item.TotalSellQuantity</td>
+                                    <td>@item.TransactionDate</td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane fade" id="nav-sellgtbuy" role="tabpanel" aria-labelledby="nav-sellgtbuy-tab">
+                        <table id="tblSellGTBuy" class="table text-nowrap mb-0" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Company</th>
+                                    <th>Tota Sell Quantity</th>
+                                    <th>Tota Buy Quantity</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.SellGTBuy)
+                                {
+                                    <tr>
+                                        <td><a href="#">@item.Company</a></td>
+                                        <td>@item.TotalSellQuantity</td>
+                                        <td>@item.TotalBuyQuantity</td>
+                                        <td>@item.TransactionDate</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+
+        $.noConflict();
+        $('#tblOnlySell,#tblonlyBuy,#tblSellGTBuy,#tblSellGTBuy').DataTable({
+            "pagingType": "simple_numbers" // "simple" option for 'Previous' and 'Next' buttons only
+        });
+        $('.dataTables_length').addClass('bs-select');
+        $('.dataTables_length,.dataTables_info,.dataTables_paginate').show();
+    });
+</script>
+

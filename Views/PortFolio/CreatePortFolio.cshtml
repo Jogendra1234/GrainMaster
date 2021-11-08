@@ -1,0 +1,140 @@
+﻿@model GrainMaster.Models.CombinedPortFolioModel
+@{
+    ViewBag.Title = "CreatePortFolio";
+    Layout = "~/Views/Shared/_master.cshtml";
+}
+
+<link href="~/JS/jquery-ui.css" rel="stylesheet" />
+<script src="~/JS/jquery-1.10.2.js"></script>
+<script src="~/JS/jquery-ui.js"></script>
+<style>
+    #PortFolio_StockName, #txtQuantity, #txtPrice, #PortFolio_Date {
+        min-width: 0px !important;
+        max-width: 95% !important;
+        margin-left: 6% !important;
+    }
+    label {
+        margin-left: 6% !important;
+    }
+</style>
+
+
+<script>
+    $(document).ready(function () {
+        $("#PortFolio_Date").datepicker({
+            dateFormat: "dd-mm-yy",
+            changeMonth: true,
+            changeYear: true
+        });
+
+        $("#PortFolio_StockName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/PortFolio/StockDetail",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        if (data.length == 0) {
+                            localStorage.removeItem("stock");
+                            return;
+                        } else {
+                            localStorage.setItem("stock", JSON.stringify(data));
+                            response($.map(data, function (item) {
+                                return { label: item.Name, value: item.Name };
+                            }))
+                        }
+                    }
+                })
+            },
+            messages: {
+                noResults: "", results: ""
+            }
+        });
+    });
+    function ValidateStock() {
+        var txtStock = $("#PortFolio_StockName").val();
+        if (!stockExists(txtStock)) {
+            alert("Stock Name is not matching with sytem data !!");
+            return false;
+        }
+    }
+    function stockExists(stockName) {
+        if (localStorage.getItem("stock") != null) {
+            var arr = JSON.parse(localStorage.getItem("stock"));
+            return arr.some(function (el) {
+                return el.Name === stockName;
+            });
+        }
+        return false;
+    }
+</script>
+
+<div class="py-4 px-3 px-md-4">
+
+    <div class="mb-3 mb-md-4 d-flex justify-content-between">
+        <div class="h3 mb-0">
+            Positions { Money doesn't grow on trees }
+        </div>
+    </div>
+    @using (Html.BeginForm("CreatePortFolio", "PortFolio", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="row">
+
+            <div class="form-group">
+                <label for="email">Stock Name</label>
+                @Html.EditorFor(m => m.PortFolio.StockName, new { htmlAttributes = new { @class = "form-control", required = "", autofocus = "" } })
+            </div>
+            <div class="form-group">
+                <label for="email">Quantity</label>
+                @Html.TextBoxFor(m => m.PortFolio.Quantity, new { @class = "form-control", id = "txtQuantity", required = "" })
+            </div>
+            <div class="form-group">
+                <label for="email">Price</label>
+                @Html.TextBoxFor(m => m.PortFolio.Price, new { @class = "form-control", id = "txtPrice", required = "" })
+            </div>
+            <div class="form-group">
+                <label for="email">Date</label>
+                @Html.EditorFor(m => m.PortFolio.Date, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.PortFolio.Date, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group no-margin">
+                <input type="submit" value="save" class="btn btn-primary btn-block" style="margin-top:50%;margin-left:25%;" onclick=" return ValidateStock();" />
+            </div>
+
+        </div>
+    }
+    <div class="row">
+        @if (Model != null && Model.PortFolioList != null)
+        {
+
+            foreach (var item in Model.PortFolioList)
+            {
+
+                <div class="col-md-6 col-xl-4 mb-3 mb-md-4">
+                    <!-- Card -->
+                    <div class="card h-100">
+                        <div class="card-header d-flex">
+                            <h5 class="h6 font-weight-semi-bold text-uppercase mb-0">@item.StockName</h5>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="media align-items-center px-3 px-md-4 mb-3 mb-md-4">
+                                <div class="media-body">
+                                    <h4 class="h3 lh-1 mb-2">@item.Quantity</h4>
+                                    <p class="small text-muted mb-0">
+                                        +@item.Price <span class="text-success mx-1">+10.23%</span> This Month
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Card -->
+                </div>
+            }
+        }
+    </div>
+</div>
+
+

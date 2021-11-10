@@ -30,7 +30,9 @@ namespace GrainMaster.Controllers
                         StockName = Convert.ToString(formCollection["PortFolio.StockName"]),
                         Quantity = Convert.ToString(formCollection["PortFolio.Quantity"]),
                         Price = Convert.ToString(formCollection["PortFolio.Price"]),
-                        Date = Convert.ToDateTime(formCollection["PortFolio.Date"])
+                        Date = Convert.ToDateTime(formCollection["PortFolio.Date"]),
+                        TPSID = Convert.ToString(formCollection["PortFolio.TPSID"]),
+                        PurchaseType = Convert.ToInt32(formCollection["ddlPurchaseType"])
                     };
                     string msg = PortFolio.CreatePortFolio(portFolioModel);
                     if (msg != "")
@@ -51,11 +53,11 @@ namespace GrainMaster.Controllers
         {
             try
             {
-                List<StockDetail> ObjList = PortFolio.GetStock();
-                var Name = from N in ObjList
+                List<StockDetail> ObjList = PortFolio.GetSector();
+                var result = from N in ObjList
                             where N.Name.ToLower().StartsWith(Prefix.ToLower())
-                            select new { N.Name };
-                return Json(Name, JsonRequestBehavior.AllowGet);
+                            select new { N.Name,N.ID };
+                return Json(result, JsonRequestBehavior.AllowGet);
             }
             catch(Exception ex)
             {
@@ -63,6 +65,21 @@ namespace GrainMaster.Controllers
                 return null;
             }
             
+        }
+
+        [HttpPost]
+        public JsonResult GetCompanyTP(string CName)
+        {
+            try
+            {
+                return Json(PortFolio.GetTP(CName), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw ex;
+            }
+
         }
     }
 }

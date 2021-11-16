@@ -1,4 +1,4 @@
-﻿@model GrainMaster.Models.CombinedPortFolioModel
+﻿@model GrainMaster.Models.CombinedModel
 @{
     ViewBag.Title = "CreatePortFolio";
     Layout = "~/Views/Shared/_master.cshtml";
@@ -13,13 +13,39 @@
         max-width: 95% !important;
         margin-left: 6% !important;
     }
+    #btnAddPst {
+        margin-left: 7% !important;
+    }
+
     label {
         margin-left: 6% !important;
     }
-    .spinner-grow{
-        position : absolute;
-        top : 1rem;
-        right : 0px;
+    #lblTPSID, #lblTPUrl {
+        margin-left: 1rem !important;
+    }
+
+    .spinner-grow {
+        position: absolute;
+        top: 1rem;
+        right: 0px;
+    }
+    #btnDiv{
+        margin-left:14rem;
+        width :12rem;
+    }
+    div.ist {
+        margin-top: 2rem;
+        margin-left: 1rem !important;
+    }
+    div.IInd, div.IIIrd{
+        margin-left: 1rem !important;
+    }
+    div.IVth {
+        display: none;
+        margin-left: 1rem !important;
+    }
+    div.dropdown {
+        width: 17%;
     }
 </style>
 
@@ -41,10 +67,10 @@
                     data: { Prefix: request.term },
                     success: function (data) {
                         if (data.length == 0) {
-                            localStorage.removeItem("company");
+                            localStorage.removeItem("stock");
                             return;
                         } else {
-                            localStorage.setItem("company", JSON.stringify(data));
+                            localStorage.setItem("stock", JSON.stringify(data));
                             response($.map(data, function (item) {
                                 return { label: item.Name, value: item.Name };
                             }))
@@ -52,8 +78,12 @@
                     }
                 })
             },
+            change: function (event, ui) {
+                $("#lblTPSID,#lblTPUrl").html("");
+                GetTP(ui.item.label);
+            },
             select: function (event, ui) {
-                console.log(ui);
+                $("#lblTPSID,#lblTPUrl").html("");
                 GetTP(ui.item.label);
             },
             messages: {
@@ -63,20 +93,22 @@
     });
 
     function GetTP(CompanyName) {
-        try
-        {
+        try {
             $.ajax({
                 url: "/PortFolio/GetCompanyTP",
                 type: "POST",
                 dataType: "json",
                 data: { CName: CompanyName },
-                success: function (data)
-                {
+                success: function (data) {
                     if (data != undefined) {
+                        $("div.IVth").show();
                         if (data.TPSID != "")
                             $("#lblTPSID").wrapInner("<b>TP SID : </b>" + data.TPSID);
                         if (data.URL != "")
-                            $("#lblTPUrl").wrapInner("<b>URL : </b>" +data.URL);
+                            $("#lblTPUrl").wrapInner("<b>URL : </b>" + data.URL);
+                    }
+                    else {
+                        $("#lblTPSID,#lblTPUrl").html("");
                     }
                 }
             });
@@ -113,160 +145,186 @@
     @using (Html.BeginForm("CreatePortFolio", "PortFolio", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
-<div class="row">
-
-    <div class="form-group">
-        <label for="name">Stock Name</label>
-        @Html.EditorFor(m => m.PortFolio.StockName, new { htmlAttributes = new { @class = "form-control", required = "", autofocus = "" } })
-        <label id="lblTPSID"></label>
-        <label id="lblTPUrl"></label>
-    </div>
-    <div class="form-group">
-        <label for="purchaseType">Type</label>
-        @Html.DropDownList("ddlPurchaseType", new List<SelectListItem>
-        {   new SelectListItem { Text = "Buy", Value = "1"},
-            new SelectListItem { Text = "Sell", Value = "2"}
-        }, "-Select-",  new { @class = "form-control", id= "ddlPurchaseType" })
-    </div>
-    <div class="form-group">
-        <label for="tpsid">TP SID</label>
-        @Html.TextBoxFor(m => m.PortFolio.TPSID, new { @class = "form-control", id = "txtTPSID" })
-    </div>
-    <div class="form-group">
-        <label for="quantity">Quantity</label>
-        @Html.TextBoxFor(m => m.PortFolio.Quantity, new { @class = "form-control", id = "txtQuantity", required = "" })
-    </div>
-    <div class="form-group">
-        <label for="price">Price</label>
-        @Html.TextBoxFor(m => m.PortFolio.Price, new { @class = "form-control", id = "txtPrice", required = "" })
-    </div>
-    <div class="form-group">
-        <label for="date">Date</label>
-        @Html.EditorFor(m => m.PortFolio.Date, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(m => m.PortFolio.Date, "", new { @class = "text-danger" })
-    </div>
-
-    <div class="form-group no-margin">
-        <input type="submit" value="save" class="btn btn-primary btn-block" style="margin-top:50%;margin-left:25%;" onclick=" return ValidateStock();" />
-    </div>
-
-</div>
-    }
-<div class="row">
-    @if (Model != null && Model.PortFolioList != null)
-    {
-
-        foreach (var item in Model.PortFolioList)
-        {
-            <div class="col-md-6 col-xl-4 mb-3 mb-md-4">
-                <!-- Card -->
-                <div class="card h-100">
-                    <div class="card-header d-flex">
-                        <h5 class="h6 font-weight-semi-bold text-uppercase mb-0">@item.StockName</h5>
-                        <div class="spinner-grow text-success" role="status">
-                            <span class="sr-only">Loading...</span>
-                        </div>
+        <div class="card h-100">
+            <div class="card-body p-0 border">
+                <div class="row ist">
+                    <div class="form-group">
+                        <label for="name">Stock Name</label>
+                        @Html.EditorFor(m => m.PortFolio.StockName, new { htmlAttributes = new { @class = "form-control", required = "", autofocus = "" } })
                     </div>
-                    <div class="card-body p-0">
-                        <div class="media align-items-center px-3 px-md-4 mb-3 mb-md-4">
-                            <div class="media-body">
-                                <h4 class="h3 lh-1 mb-2">₹@((int)Convert.ToDecimal(item.Price)) X @item.Quantity = ₹@((int)Convert.ToDecimal(item.Price) * (int)Convert.ToDecimal(item.Quantity)) </h4>
-                                <p class="small text-muted mb-0">
-                                    +₹7,213.38 <span class="text-success mx-1">+10.23%</span>
-                                </p>
-                                <p class="small text-muted mb-0" style="padding-top:5px;">
-                                    <a href="#" class="badge badge-pill badge-success">Positive Deals</a>
-                                    <a href="#" class="badge badge-pill badge-success">News</a>
-                                    <a href="#" class="badge badge-pill badge-success">Volume Spiked</a>
-                                </p>
-                                <p class="small text-muted mb-0" style="padding-top:15px;">
-                                    <span class="badge badge-complex bg-semi-soft-primary text-white">
-                                        <span class="badge badge-sm badge-danger rounded-circle mr-2">LD</span>
-                                        <span style="font-size:medium;">@item.DeliveryYesterday&nbsp;&nbsp;</span>
-                                    </span>
-                                    <span class="badge  badge-complex bg-semi-soft-primary text-white">
-                                        <span class="badge badge-sm badge-danger rounded-circle mr-2">WD</span>
-                                        <span style="font-size:medium;">@item.DeliveryAverageWeek&nbsp;&nbsp;</span>
-                                    </span>
-                                    <span class="badge  badge-complex bg-semi-soft-primary text-white">
-                                        <span class="badge badge-sm badge-danger rounded-circle mr-2">MD</span>
-                                        <span style="font-size:medium;">@item.DeliveryAverageMonth&nbsp;&nbsp;</span>
-                                    </span>
-                                </p>
-                                <p class="small text-muted mb-0" style="padding-top:5px;">
-                                    <span class="badge badge-complex bg-semi-soft-danger text-white">
-                                        <span class="badge badge-sm badge-danger rounded-circle mr-2">S1</span>
-                                        <span style="font-size:medium;">₹@item.S1</span>
-                                    </span>
-                                    <span class="badge  badge-complex bg-semi-soft-danger text-white">
-                                        <span class="badge badge-sm badge-danger rounded-circle mr-2">S2</span>
-                                        <span style="font-size:medium;">₹@item.S2</span>
-                                    </span>
-                                    <span class="badge  badge-complex bg-semi-soft-danger text-white">
-                                        <span class="badge badge-sm badge-danger rounded-circle mr-2">S3</span>
-                                        <span style="font-size:medium;">₹@item.S3</span>
-                                    </span>
-                                </p>
-                                <p class="small text-muted mb-0" style="padding-top:5px;">
-                                    <span class="badge badge-complex bg-semi-soft-primary-darker text-white">
-                                        <span class="badge badge-sm badge-danger rounded-circle mr-2">R1</span>
-                                        <span style="font-size:medium;">₹@item.R1</span>
-                                    </span>
-                                    <span class="badge  badge-complex bg-semi-soft-primary-darker text-white">
-                                        <span class="badge badge-sm badge-danger rounded-circle mr-2">R2</span>
-                                        <span style="font-size:medium;">₹@item.R2</span>
-                                    </span>
-                                    <span class="badge  badge-complex bg-semi-soft-primary-darker text-white">
-                                        <span class="badge badge-sm badge-danger rounded-circle mr-2">R3</span>
-                                        <span style="font-size:medium;">₹@item.R3</span>
-                                    </span>
-                                </p>
-                                <p class="small text-muted mb-0" style="padding-top:5px;">
-                                    <span class="badge badge-complex bg-semi-soft-primary text-white">
-                                        <span class="badge badge-sm badge-danger rounded-circle mr-2">5</span>
-                                        <span style="font-size:medium;">₹@item.SMA5</span>
-                                    </span>
-                                    <span class="badge  badge-complex bg-semi-soft-primary text-white">
-                                        <span class="badge badge-sm badge-danger rounded-circle mr-2">10</span>
-                                        <span style="font-size:medium;">₹@item.SMA10</span>
-                                    </span>
-                                    <span class="badge  badge-complex bg-semi-soft-primary text-white">
-                                        <span class="badge badge-sm badge-danger rounded-circle mr-2">20</span>
-                                        <span style="font-size:medium;">₹@item.SMA20</span>
-                                    </span>
-                                </p>
-                                <p class="small text-muted mb-0" style="padding-top:5px;">
-                                    <span class="badge badge-complex bg-semi-soft-primary text-white">
-                                        <span class="badge badge-sm badge-danger rounded-circle mr-2">50</span>
-                                        <span style="font-size:medium;">₹@item.SMA50</span>
-                                    </span>
-                                    <span class="badge  badge-complex bg-semi-soft-primary text-white">
-                                        <span class="badge badge-sm badge-danger rounded-circle mr-2">100</span>
-                                        <span style="font-size:medium;">₹@item.SMA100</span>
-                                    </span>
-                                    <span class="badge  badge-complex bg-semi-soft-primary text-white">
-                                        <span class="badge badge-sm badge-danger rounded-circle mr-2">200</span>
-                                        <span style="font-size:medium;">₹@item.SMA200</span>
-                                    </span>
-                                </p>
+                    <div class="form-group dropdown">
+                        <label for="purchaseType">Type</label>
+                        @Html.DropDownList("ddlPurchaseType", new List<SelectListItem>
+                        {   new SelectListItem { Text = "Buy", Value = "1"},
+                            new SelectListItem { Text = "Sell", Value = "2"}
+                        }, "--Select--", new { @class = "form-control", id = "ddlPurchaseType", required = "" })
+                    </div>
+                    <div class="form-group">
+                        <label for="tpsid">TP SID</label>
+                        @Html.TextBoxFor(m => m.PortFolio.TPSID, new { @class = "form-control", id = "txtTPSID" })
+                    </div>
+                    
+                </div>
+                <div class="row IInd">
 
-                                <p class="small mb-0 text-darker" style="padding-top:25px;">
-                                    <button class="btn btn-warning btn-sm rounded-pill" type="button">Edit</button>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    Added : <strong>@Convert.ToDateTime(item.Date).ToString("dd MMMM yyy")</strong>
-                                </p>
-                                @*<p class="small mb-0 text-darker" style="text-align:right;">
-                                    Added : <strong>@Convert.ToDateTime(item.Date).ToString("dd MMMM yyy")</strong>
-                                </p>*@
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        @Html.TextBoxFor(m => m.PortFolio.Quantity, new { @class = "form-control", id = "txtQuantity", required = "" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="price">Price</label>
+                        @Html.TextBoxFor(m => m.PortFolio.Price, new { @class = "form-control", id = "txtPrice", required = "" })
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Date</label>
+                        @Html.EditorFor(m => m.PortFolio.Date, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(m => m.PortFolio.Date, "", new { @class = "text-danger" })
+                    </div>
+
+                    @*@<div class="form-group no-margin">
+                        <input type="submit" value="save" class="btn btn-primary btn-block" style="margin-top:50%;margin-left:25%;" onclick=" return ValidateStock();" />
+                    </div>*@
+
+                </div>
+
+                <div class="row IIIrd">
+                    <div class="form-group center-block" id="btnDiv">
+                        <input type="submit" id="btnAddPst" value="Add Position" class="btn btn-primary btn-block" onclick=" return ValidateStock();" />
                     </div>
                 </div>
-                <!-- End Card -->
+
+                <div class="row IVth" id="lblRow">
+                    <div class="form-group">
+                        <label id="lblTPSID"></label>
+                        <label id="lblTPUrl"></label>
+                    </div>
+                </div>
+
+
             </div>
-        }
-    }
-</div>
-</div>
+        </div>
+     }
+        <div class="row">
+            <div class="form-group">
+                <label></label>
+            </div>
+        </div>
+        <div class="row">
+            @if (Model != null && Model.PortFolioList != null)
+            {
+
+                foreach (var item in Model.PortFolioList)
+                {
+                    <div class="col-md-6 col-xl-4 mb-3 mb-md-4">
+                        <!-- Card -->
+                        <div class="card h-100">
+                            <div class="card-header d-flex">
+                                <h5 class="h6 font-weight-semi-bold text-uppercase mb-0">@item.StockName</h5>
+                                <div class="spinner-grow text-success" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="media align-items-center px-3 px-md-4 mb-3 mb-md-4">
+                                    <div class="media-body">
+                                        <h4 class="h3 lh-1 mb-2">₹@((int)Convert.ToDecimal(item.Price)) X @item.Quantity = ₹@((int)Convert.ToDecimal(item.Price) * (int)Convert.ToDecimal(item.Quantity)) </h4>
+                                        <p class="small text-muted mb-0">
+                                            +₹7,213.38 <span class="text-success mx-1">+10.23%</span>
+                                        </p>
+                                        <p class="small text-muted mb-0" style="padding-top:5px;">
+                                            <a href="#" style="display:@(item.ISDealType.IsPositiveDeal || item.ISDealType.IsNegativeDeal  ? "" : "none")" class="badge badge-pill badge-success" target="_blank">@(item.ISDealType.IsPositiveDeal? "Positive Deals" : "Negative Deals" )</a>
+                                            <a href="@(item.Count > 0 ? item.link : "#")" style="display:@(item.Count > 0 ? "" : "none")" class="badge badge-pill badge-success" target="_blank">News</a>
+                                            <a href="#" class="badge badge-pill badge-success">Volume Spiked</a>
+                                        </p>
+                                        <p class="small text-muted mb-0" style="padding-top:15px;">
+                                            <span class="badge badge-complex bg-semi-soft-primary text-white">
+                                                <span class="badge badge-sm badge-danger rounded-circle mr-2">LD</span>
+                                                <span style="font-size:medium;">@item.DeliveryYesterday&nbsp;&nbsp;</span>
+                                            </span>
+                                            <span class="badge  badge-complex bg-semi-soft-primary text-white">
+                                                <span class="badge badge-sm badge-danger rounded-circle mr-2">WD</span>
+                                                <span style="font-size:medium;">@item.DeliveryAverageWeek&nbsp;&nbsp;</span>
+                                            </span>
+                                            <span class="badge  badge-complex bg-semi-soft-primary text-white">
+                                                <span class="badge badge-sm badge-danger rounded-circle mr-2">MD</span>
+                                                <span style="font-size:medium;">@item.DeliveryAverageMonth&nbsp;&nbsp;</span>
+                                            </span>
+                                        </p>
+                                        <p class="small text-muted mb-0" style="padding-top:5px;">
+                                            <span class="badge badge-complex bg-semi-soft-danger text-white">
+                                                <span class="badge badge-sm badge-danger rounded-circle mr-2">S1</span>
+                                                <span style="font-size:medium;">₹@item.S1</span>
+                                            </span>
+                                            <span class="badge  badge-complex bg-semi-soft-danger text-white">
+                                                <span class="badge badge-sm badge-danger rounded-circle mr-2">S2</span>
+                                                <span style="font-size:medium;">₹@item.S2</span>
+                                            </span>
+                                            <span class="badge  badge-complex bg-semi-soft-danger text-white">
+                                                <span class="badge badge-sm badge-danger rounded-circle mr-2">S3</span>
+                                                <span style="font-size:medium;">₹@item.S3</span>
+                                            </span>
+                                        </p>
+                                        <p class="small text-muted mb-0" style="padding-top:5px;">
+                                            <span class="badge badge-complex bg-semi-soft-primary-darker text-white">
+                                                <span class="badge badge-sm badge-danger rounded-circle mr-2">R1</span>
+                                                <span style="font-size:medium;">₹@item.R1</span>
+                                            </span>
+                                            <span class="badge  badge-complex bg-semi-soft-primary-darker text-white">
+                                                <span class="badge badge-sm badge-danger rounded-circle mr-2">R2</span>
+                                                <span style="font-size:medium;">₹@item.R2</span>
+                                            </span>
+                                            <span class="badge  badge-complex bg-semi-soft-primary-darker text-white">
+                                                <span class="badge badge-sm badge-danger rounded-circle mr-2">R3</span>
+                                                <span style="font-size:medium;">₹@item.R3</span>
+                                            </span>
+                                        </p>
+                                        <p class="small text-muted mb-0" style="padding-top:5px;">
+                                            <span class="badge badge-complex bg-semi-soft-primary text-white">
+                                                <span class="badge badge-sm badge-danger rounded-circle mr-2">5</span>
+                                                <span style="font-size:medium;">₹@item.SMA5</span>
+                                            </span>
+                                            <span class="badge  badge-complex bg-semi-soft-primary text-white">
+                                                <span class="badge badge-sm badge-danger rounded-circle mr-2">10</span>
+                                                <span style="font-size:medium;">₹@item.SMA10</span>
+                                            </span>
+                                            <span class="badge  badge-complex bg-semi-soft-primary text-white">
+                                                <span class="badge badge-sm badge-danger rounded-circle mr-2">20</span>
+                                                <span style="font-size:medium;">₹@item.SMA20</span>
+                                            </span>
+                                        </p>
+                                        <p class="small text-muted mb-0" style="padding-top:5px;">
+                                            <span class="badge badge-complex bg-semi-soft-primary text-white">
+                                                <span class="badge badge-sm badge-danger rounded-circle mr-2">50</span>
+                                                <span style="font-size:medium;">₹@item.SMA50</span>
+                                            </span>
+                                            <span class="badge  badge-complex bg-semi-soft-primary text-white">
+                                                <span class="badge badge-sm badge-danger rounded-circle mr-2">100</span>
+                                                <span style="font-size:medium;">₹@item.SMA100</span>
+                                            </span>
+                                            <span class="badge  badge-complex bg-semi-soft-primary text-white">
+                                                <span class="badge badge-sm badge-danger rounded-circle mr-2">200</span>
+                                                <span style="font-size:medium;">₹@item.SMA200</span>
+                                            </span>
+                                        </p>
+
+                                        <p class="small mb-0 text-darker" style="padding-top:25px;">
+                                            <button class="btn btn-warning btn-sm rounded-pill" type="button">Edit</button>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            Added : <strong>@Convert.ToDateTime(item.Date).ToString("dd MMMM yyy")</strong>
+                                        </p>
+                                        @*<p class="small mb-0 text-darker" style="text-align:right;">
+                                                Added : <strong>@Convert.ToDateTime(item.Date).ToString("dd MMMM yyy")</strong>
+                                            </p>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Card -->
+                    </div>
+                }
+            }
+        </div>
+    </div>
 
 

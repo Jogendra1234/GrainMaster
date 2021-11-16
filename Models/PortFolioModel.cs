@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GrainMaster.Models
 {
-    public class PortFolioModel
+    public class PortFolioModel : NewsModel
     {
         public int ID { get; set; }
         [Required]
@@ -38,13 +38,21 @@ namespace GrainMaster.Models
         public string DeliveryAverageMonth { get; set; }
         public string DeliveryAverageWeek { get; set; }
         public string DeliveryYesterday { get; set; }
+        public DealType ISDealType { get; set; }
 
     }
 
-    public class CombinedPortFolioModel
+    public class CombinedModel
     {
         public PortFolioModel PortFolio { get; set; }
         public List<VolDeliveryModel> PortFolioList { get; set; }
+        public List<NewsRepository> NewsRepositoriesModel { get; set; }
+    }
+
+    public class DealType
+    {
+        public bool IsPositiveDeal { get; set; }
+        public bool IsNegativeDeal { get; set; }
     }
 
     public class StockDetail

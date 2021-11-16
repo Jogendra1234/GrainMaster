@@ -1,10 +1,20 @@
-﻿@model GrainMaster.Models.CombinedPortFolioModel
+﻿@model GrainMaster.Models.CombinedModel
 @{
     ViewBag.Title = "Dashboard";
     Layout = "~/Views/Shared/_master.cshtml";
 }
 
 <script src="~/JS/jquery-1.10.2.js"></script>
+<style type="text/css">
+    .card-body > p, #titleHead {
+        white-space: normal !important;
+    }
+    .spinner-grow {
+        position: absolute;
+        top: 1rem;
+        right: 0px;
+    }
+</style>
 
 <div class="mb-3 mb-md-4 d-flex justify-content-between">
     <div class="h3 mb-0">
@@ -13,264 +23,160 @@
 </div>
 <div class="row">
     <div class="col-md-6 col-xl-4 mb-3 mb-md-4">
-        <!-- Card -->
-        <div class="card h-100">            
-            <div class="card-header d-flex">
-                <h5 class="h6 font-weight-semi-bold text-uppercase mb-0">TATA MOTORS</h5>
-                <div class="spinner-grow text-success" role="status">
-                    <span class="sr-only">Loading...</span>
-                </div>
-            </div>
-            <div class="card-body p-0">
-                <div class="media align-items-center px-3 px-md-4 mb-3 mb-md-4">
-                    <div class="media-body">
-                        <h4 class="h3 lh-1 mb-2">₹300 X 2000 = ₹60,000 </h4>
-                        <p class="small text-muted mb-0">
-                            +₹7,213.38 <span class="text-success mx-1">+10.23%</span>
-                        </p>
-                        <p class="small text-muted mb-0" style="padding-top:5px;">
-                            <a href="#" class="badge badge-pill badge-success">Positive Deals</a>
-                            <a href="#" class="badge badge-pill badge-success">News</a>
-                            <a href="#" class="badge badge-pill badge-success">Volume Spiked</a>
-                        </p>
-                        <p class="small text-muted mb-0" style="padding-top:15px;">
-                            <span class="badge badge-complex bg-semi-soft-primary text-white">
-                                <span class="badge badge-sm badge-danger rounded-circle mr-2">LD</span>
-                                <span style="font-size:medium;">30%&nbsp;&nbsp;</span>
-                            </span>
-                            <span class="badge  badge-complex bg-semi-soft-primary text-white">
-                                <span class="badge badge-sm badge-danger rounded-circle mr-2">WD</span>
-                                <span style="font-size:medium;">27%&nbsp;&nbsp;</span>
-                            </span>
-                            <span class="badge  badge-complex bg-semi-soft-primary text-white">
-                                <span class="badge badge-sm badge-danger rounded-circle mr-2">MD</span>
-                                <span style="font-size:medium;">30%&nbsp;&nbsp;</span>
-                            </span>
-                        </p>
-                        <p class="small text-muted mb-0" style="padding-top:5px;">
-                            <span class="badge badge-complex bg-semi-soft-danger text-white">
-                                <span class="badge badge-sm badge-danger rounded-circle mr-2">S1</span>
-                                <span style="font-size:medium;">₹300</span>
-                            </span>
-                            <span class="badge  badge-complex bg-semi-soft-danger text-white">
-                                <span class="badge badge-sm badge-danger rounded-circle mr-2">S2</span>
-                                <span style="font-size:medium;">₹300</span>
-                            </span>
-                            <span class="badge  badge-complex bg-semi-soft-danger text-white">
-                                <span class="badge badge-sm badge-danger rounded-circle mr-2">S3</span>
-                                <span style="font-size:medium;">₹300</span>
-                            </span>
-                        </p>
-                        <p class="small text-muted mb-0" style="padding-top:5px;">
-                            <span class="badge badge-complex bg-semi-soft-primary-darker text-white">
-                                <span class="badge badge-sm badge-danger rounded-circle mr-2">R1</span>
-                                <span style="font-size:medium;">₹300</span>
-                            </span>
-                            <span class="badge  badge-complex bg-semi-soft-primary-darker text-white">
-                                <span class="badge badge-sm badge-danger rounded-circle mr-2">R2</span>
-                                <span style="font-size:medium;">₹300</span>
-                            </span>
-                            <span class="badge  badge-complex bg-semi-soft-primary-darker text-white">
-                                <span class="badge badge-sm badge-danger rounded-circle mr-2">R3</span>
-                                <span style="font-size:medium;">₹300</span>
-                            </span>
-                        </p>
-                        <p class="small text-muted mb-0" style="padding-top:5px;">
-                            <span class="badge badge-complex bg-semi-soft-primary text-white">
-                                <span class="badge badge-sm badge-danger rounded-circle mr-2">5</span>
-                                <span style="font-size:medium;">₹300</span>
-                            </span>
-                            <span class="badge  badge-complex bg-semi-soft-primary text-white">
-                                <span class="badge badge-sm badge-danger rounded-circle mr-2">10</span>
-                                <span style="font-size:medium;">₹300</span>
-                            </span>
-                            <span class="badge  badge-complex bg-semi-soft-primary text-white">
-                                <span class="badge badge-sm badge-danger rounded-circle mr-2">20</span>
-                                <span style="font-size:medium;">₹300</span>
-                            </span>                            
-                        </p>
-                        <p class="small text-muted mb-0" style="padding-top:5px;">
-                            <span class="badge badge-complex bg-semi-soft-primary text-white">
-                                <span class="badge badge-sm badge-danger rounded-circle mr-2">50</span>
-                                <span style="font-size:medium;">₹300</span>
-                            </span>
-                            <span class="badge  badge-complex bg-semi-soft-primary text-white">
-                                <span class="badge badge-sm badge-danger rounded-circle mr-2">100</span>
-                                <span style="font-size:medium;">₹300</span>
-                            </span>
-                            <span class="badge  badge-complex bg-semi-soft-primary text-white">
-                                <span class="badge badge-sm badge-danger rounded-circle mr-2">200</span>
-                                <span style="font-size:medium;">₹300</span>
-                            </span>                           
-                        </p>
-
-                        <p class="small mb-0 text-darker" style="padding-top:25px;">
-                            <button class="btn btn-success btn-sm rounded-pill" type="button">Add Campaign</button>&nbsp;
-                            <button class="btn btn-warning btn-sm rounded-pill" type="button">Edit</button>
-                        </p>
-                        <p class="small mb-0 text-darker" style="text-align:right;">
-                            Added : <strong>@DateTime.Now.ToLongDateString()</strong>
-                        </p>
-                    </div>
-                </div>
-            </div>
+        <div class="card-body pt-0">
+            <table class="table text-nowrap mb-0">
+                <thead>Latest News</thead>
+                <tbody>
+                    <tr>
+                        @foreach (var item in Model.NewsRepositoriesModel)
+                        {
+                            <td>
+                                <div class="card">
+                                    <img src="@item.Image" style="height:10rem !important;width:14rem;" class="card-img-top" alt="...">
+                                    <div class="card-body" style="height:10rem;">
+                                        <a target="_blank" href="@item.Link" class="card-title"><h5 id="titleHead">@(item.Title.ToString().Length > 100 ? item.Title.Substring(0,100)+"....." : item.Title )</h5></a>
+                                        @*<p class="card-text">@(item.Description.ToString().Length > 500 ? item.Description.Substring(0,200)+"....." : item.Description )</p>*@
+                                    </div>
+                                </div>
+                            </td>
+                        }
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="float:right !important;">
+                            <a href="../News/GetAll">
+                                Show More
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        <!-- End Card -->
     </div>
-    <div class="col-md-6 col-xl-4 mb-3 mb-md-4">
-        <!-- Card -->
-        <div class="card h-100">
-            <div class="card-header d-flex">
-                <h5 class="h6 font-weight-semi-bold text-uppercase mb-0">TATA MOTORS</h5>
-                <div class="spinner-grow text-success" role="status">
-                    <span class="sr-only">Loading...</span>
-                </div>
-            </div>
-            <div class="card-body p-0">
-                <div class="media align-items-center px-3 px-md-4 mb-3 mb-md-4">
-                    <div class="media-body">
-                        <h4 class="h3 lh-1 mb-2">₹300 X 2000 = ₹60,000 </h4>
-                        <p class="small text-muted mb-0">
-                            +₹7,213.38 <span class="text-success mx-1">+10.23%</span>
-                        </p>
-                        <p class="small text-muted mb-0" style="padding-top:5px;">
-                            <a href="#" class="badge badge-pill badge-success">Positive Deals</a>
-                            <a href="#" class="badge badge-pill badge-success">News</a>
-                            <a href="#" class="badge badge-pill badge-success">Volume Spiked</a>
-                        </p>
-                        <p class="small text-muted mb-0" style="padding-top:15px;">
-                            <span class="badge badge-complex bg-semi-soft-primary text-white">
-                                <span class="badge badge-sm badge-danger rounded-circle mr-2">LD</span>
-                                <span style="font-size:medium;">30%&nbsp;&nbsp;</span>
-                            </span>
-                            <span class="badge  badge-complex bg-semi-soft-primary text-white">
-                                <span class="badge badge-sm badge-danger rounded-circle mr-2">WD</span>
-                                <span style="font-size:medium;">27%&nbsp;&nbsp;</span>
-                            </span>
-                            <span class="badge  badge-complex bg-semi-soft-primary text-white">
-                                <span class="badge badge-sm badge-danger rounded-circle mr-2">MD</span>
-                                <span style="font-size:medium;">30%&nbsp;&nbsp;</span>
-                            </span>
-                        </p>
-                        <p class="small text-muted mb-0" style="padding-top:5px;">
-                            <span class="badge badge-complex bg-semi-soft-danger text-white">
-                                <span class="badge badge-sm badge-danger rounded-circle mr-2">S1</span>
-                                <span style="font-size:medium;">₹2,264</span>
-                            </span>
-                            <span class="badge  badge-complex bg-semi-soft-danger text-white">
-                                <span class="badge badge-sm badge-danger rounded-circle mr-2">S2</span>
-                                <span style="font-size:medium;">₹2,264</span>
-                            </span>
-                            <span class="badge  badge-complex bg-semi-soft-danger text-white">
-                                <span class="badge badge-sm badge-danger rounded-circle mr-2">S3</span>
-                                <span style="font-size:medium;">₹2,264</span>
-                            </span>
-                        </p>
-                        <p class="small text-muted mb-0" style="padding-top:5px;">
-                            <span class="badge badge-complex bg-semi-soft-primary-darker text-white">
-                                <span class="badge badge-sm badge-danger rounded-circle mr-2">R1</span>
-                                <span style="font-size:medium;">₹2,264</span>
-                            </span>
-                            <span class="badge  badge-complex bg-semi-soft-primary-darker text-white">
-                                <span class="badge badge-sm badge-danger rounded-circle mr-2">R2</span>
-                                <span style="font-size:medium;">₹2,264</span>
-                            </span>
-                            <span class="badge  badge-complex bg-semi-soft-primary-darker text-white">
-                                <span class="badge badge-sm badge-danger rounded-circle mr-2">R3</span>
-                                <span style="font-size:medium;">₹2,264</span>
-                            </span>
-                        </p>
+</div>
+<div class="row">
+    @if (Model != null && Model.PortFolioList != null)
+    {
+        int count = 0;
+        foreach (var item in Model.PortFolioList)
+        {
+            if(count == 6)
+            {
+                break;
+            }
+            if (item.Count > 0 || (item.ISDealType != null && item.ISDealType.IsPositiveDeal || item.ISDealType.IsNegativeDeal))
+            {
+                count++;
+                <div class="col-md-6 col-xl-4 mb-3 mb-md-4">
+                    <!-- Card -->
+                    <div class="card h-100">
+                        <div class="card-header d-flex">
+                            <h5 class="h6 font-weight-semi-bold text-uppercase mb-0">@item.StockName</h5>
+                            <div class="spinner-grow text-success" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="media align-items-center px-3 px-md-4 mb-3 mb-md-4">
+                                <div class="media-body">
+                                    <h4 class="h3 lh-1 mb-2">₹@((int)Convert.ToDecimal(item.Price)) X @item.Quantity = ₹@((int)Convert.ToDecimal(item.Price) * (int)Convert.ToDecimal(item.Quantity)) </h4>
+                                    <p class="small text-muted mb-0">
+                                        +₹7,213.38 <span class="text-success mx-1">+10.23%</span>
+                                    </p>
+                                    <p class="small text-muted mb-0" style="padding-top:5px;">
+                                        <a href="#" style="display:@(item.ISDealType.IsPositiveDeal || item.ISDealType.IsNegativeDeal  ? "" : "none")" class="badge badge-pill badge-success" target="_blank">@(item.ISDealType.IsPositiveDeal? "Positive Deals" : "Negative Deals" )</a>
+                                        <a href="@(item.Count > 0 ? item.link : "#")" style="display:@(item.Count > 0 ? "" : "none")" class="badge badge-pill badge-success" target="_blank">News</a>
+                                        <a href="#" class="badge badge-pill badge-success">Volume Spiked</a>
+                                    </p>
+                                    <p class="small text-muted mb-0" style="padding-top:15px;">
+                                        <span class="badge badge-complex bg-semi-soft-primary text-white">
+                                            <span class="badge badge-sm badge-danger rounded-circle mr-2">LD</span>
+                                            <span style="font-size:medium;">@item.DeliveryYesterday&nbsp;&nbsp;</span>
+                                        </span>
+                                        <span class="badge  badge-complex bg-semi-soft-primary text-white">
+                                            <span class="badge badge-sm badge-danger rounded-circle mr-2">WD</span>
+                                            <span style="font-size:medium;">@item.DeliveryAverageWeek&nbsp;&nbsp;</span>
+                                        </span>
+                                        <span class="badge  badge-complex bg-semi-soft-primary text-white">
+                                            <span class="badge badge-sm badge-danger rounded-circle mr-2">MD</span>
+                                            <span style="font-size:medium;">@item.DeliveryAverageMonth&nbsp;&nbsp;</span>
+                                        </span>
+                                    </p>
+                                    <p class="small text-muted mb-0" style="padding-top:5px;">
+                                        <span class="badge badge-complex bg-semi-soft-danger text-white">
+                                            <span class="badge badge-sm badge-danger rounded-circle mr-2">S1</span>
+                                            <span style="font-size:medium;">₹@item.S1</span>
+                                        </span>
+                                        <span class="badge  badge-complex bg-semi-soft-danger text-white">
+                                            <span class="badge badge-sm badge-danger rounded-circle mr-2">S2</span>
+                                            <span style="font-size:medium;">₹@item.S2</span>
+                                        </span>
+                                        <span class="badge  badge-complex bg-semi-soft-danger text-white">
+                                            <span class="badge badge-sm badge-danger rounded-circle mr-2">S3</span>
+                                            <span style="font-size:medium;">₹@item.S3</span>
+                                        </span>
+                                    </p>
+                                    <p class="small text-muted mb-0" style="padding-top:5px;">
+                                        <span class="badge badge-complex bg-semi-soft-primary-darker text-white">
+                                            <span class="badge badge-sm badge-danger rounded-circle mr-2">R1</span>
+                                            <span style="font-size:medium;">₹@item.R1</span>
+                                        </span>
+                                        <span class="badge  badge-complex bg-semi-soft-primary-darker text-white">
+                                            <span class="badge badge-sm badge-danger rounded-circle mr-2">R2</span>
+                                            <span style="font-size:medium;">₹@item.R2</span>
+                                        </span>
+                                        <span class="badge  badge-complex bg-semi-soft-primary-darker text-white">
+                                            <span class="badge badge-sm badge-danger rounded-circle mr-2">R3</span>
+                                            <span style="font-size:medium;">₹@item.R3</span>
+                                        </span>
+                                    </p>
+                                    <p class="small text-muted mb-0" style="padding-top:5px;">
+                                        <span class="badge badge-complex bg-semi-soft-primary text-white">
+                                            <span class="badge badge-sm badge-danger rounded-circle mr-2">5</span>
+                                            <span style="font-size:medium;">₹@item.SMA5</span>
+                                        </span>
+                                        <span class="badge  badge-complex bg-semi-soft-primary text-white">
+                                            <span class="badge badge-sm badge-danger rounded-circle mr-2">10</span>
+                                            <span style="font-size:medium;">₹@item.SMA10</span>
+                                        </span>
+                                        <span class="badge  badge-complex bg-semi-soft-primary text-white">
+                                            <span class="badge badge-sm badge-danger rounded-circle mr-2">20</span>
+                                            <span style="font-size:medium;">₹@item.SMA20</span>
+                                        </span>
+                                    </p>
+                                    <p class="small text-muted mb-0" style="padding-top:5px;">
+                                        <span class="badge badge-complex bg-semi-soft-primary text-white">
+                                            <span class="badge badge-sm badge-danger rounded-circle mr-2">50</span>
+                                            <span style="font-size:medium;">₹@item.SMA50</span>
+                                        </span>
+                                        <span class="badge  badge-complex bg-semi-soft-primary text-white">
+                                            <span class="badge badge-sm badge-danger rounded-circle mr-2">100</span>
+                                            <span style="font-size:medium;">₹@item.SMA100</span>
+                                        </span>
+                                        <span class="badge  badge-complex bg-semi-soft-primary text-white">
+                                            <span class="badge badge-sm badge-danger rounded-circle mr-2">200</span>
+                                            <span style="font-size:medium;">₹@item.SMA200</span>
+                                        </span>
+                                    </p>
 
-                        <p class="small mb-0 text-darker" style="padding-top:25px;">
-                            <button class="btn btn-success btn-sm rounded-pill" type="button">Add Campaign</button>&nbsp;
-                            <button class="btn btn-warning btn-sm rounded-pill" type="button">Edit</button>
-                        </p>
-                        <p class="small mb-0 text-darker" style="text-align:right;">
-                            Added : <strong>@DateTime.Now.ToLongDateString()</strong>
-                        </p>
+                                    <p class="small mb-0 text-darker" style="padding-top:25px;">
+                                        <button class="btn btn-warning btn-sm rounded-pill" type="button">Edit</button>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        Added : <strong>@Convert.ToDateTime(item.Date).ToString("dd MMMM yyy")</strong>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    <!-- End Card -->
                 </div>
-            </div>
-        </div>
-        <!-- End Card -->
-    </div>
-    <div class="col-md-6 col-xl-4 mb-3 mb-md-4">
-        <!-- Card -->
-        <div class="card h-100">
-            <div class="card-header d-flex">
-                <h5 class="h6 font-weight-semi-bold text-uppercase mb-0">TATA MOTORS</h5>
-                <div class="spinner-grow text-success" role="status">
-                    <span class="sr-only">Loading...</span>
-                </div>
-            </div>
-            <div class="card-body p-0">
-                <div class="media align-items-center px-3 px-md-4 mb-3 mb-md-4">
-                    <div class="media-body">
-                        <h4 class="h3 lh-1 mb-2">₹300 X 2000 = ₹60,000 </h4>
-                        <p class="small text-muted mb-0">
-                            +₹7,213.38 <span class="text-success mx-1">+10.23%</span>
-                        </p>
-                        <p class="small text-muted mb-0" style="padding-top:5px;">
-                            <a href="#" class="badge badge-pill badge-success">Positive Deals</a>
-                            <a href="#" class="badge badge-pill badge-success">News</a>
-                            <a href="#" class="badge badge-pill badge-success">Volume Spiked</a>
-                        </p>
-                        <p class="small text-muted mb-0" style="padding-top:15px;">
-                            <span class="badge badge-complex bg-semi-soft-primary text-white">
-                                <span class="badge badge-sm badge-danger rounded-circle mr-2">LD</span>
-                                <span style="font-size:medium;">30%&nbsp;&nbsp;</span>
-                            </span>
-                            <span class="badge  badge-complex bg-semi-soft-primary text-white">
-                                <span class="badge badge-sm badge-danger rounded-circle mr-2">WD</span>
-                                <span style="font-size:medium;">27%&nbsp;&nbsp;</span>
-                            </span>
-                            <span class="badge  badge-complex bg-semi-soft-primary text-white">
-                                <span class="badge badge-sm badge-danger rounded-circle mr-2">MD</span>
-                                <span style="font-size:medium;">30%&nbsp;&nbsp;</span>
-                            </span>
-                        </p>
-                        <p class="small text-muted mb-0" style="padding-top:5px;">
-                            <span class="badge badge-complex bg-semi-soft-danger text-white">
-                                <span class="badge badge-sm badge-danger rounded-circle mr-2">S1</span>
-                                <span style="font-size:medium;">₹2,264</span>
-                            </span>
-                            <span class="badge  badge-complex bg-semi-soft-danger text-white">
-                                <span class="badge badge-sm badge-danger rounded-circle mr-2">S2</span>
-                                <span style="font-size:medium;">₹2,264</span>
-                            </span>
-                            <span class="badge  badge-complex bg-semi-soft-danger text-white">
-                                <span class="badge badge-sm badge-danger rounded-circle mr-2">S3</span>
-                                <span style="font-size:medium;">₹2,264</span>
-                            </span>
-                        </p>
-                        <p class="small text-muted mb-0" style="padding-top:5px;">
-                            <span class="badge badge-complex bg-semi-soft-primary-darker text-white">
-                                <span class="badge badge-sm badge-danger rounded-circle mr-2">R1</span>
-                                <span style="font-size:medium;">₹2,264</span>
-                            </span>
-                            <span class="badge  badge-complex bg-semi-soft-primary-darker text-white">
-                                <span class="badge badge-sm badge-danger rounded-circle mr-2">R2</span>
-                                <span style="font-size:medium;">₹2,264</span>
-                            </span>
-                            <span class="badge  badge-complex bg-semi-soft-primary-darker text-white">
-                                <span class="badge badge-sm badge-danger rounded-circle mr-2">R3</span>
-                                <span style="font-size:medium;">₹2,264</span>
-                            </span>
-                        </p>
-
-                        <p class="small mb-0 text-darker" style="padding-top:25px;">
-                            <button class="btn btn-success btn-sm rounded-pill" type="button">Add Campaign</button>&nbsp;
-                            <button class="btn btn-warning btn-sm rounded-pill" type="button">Edit</button>
-                        </p>
-                        <p class="small mb-0 text-darker" style="text-align:right;">
-                            Added : <strong>@DateTime.Now.ToLongDateString()</strong>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Card -->
-    </div>
+            }
+            
+        }
+    }
 
 </div>
 <div class="row">

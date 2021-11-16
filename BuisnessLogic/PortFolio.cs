@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using GrainMaster.Models;
+using GrainMaster.BuisnessLogic;
 
 public class PortFolio
 {
@@ -30,16 +31,16 @@ public class PortFolio
             return ex.Message.ToString();
         }
     }
-    public static CombinedPortFolioModel GetByID()
+    public static CombinedModel GetByID()
     {
-        CombinedPortFolioModel portFolioRecords = new CombinedPortFolioModel();
+        CombinedModel portFolioRecords = new CombinedModel();
         List<VolDeliveryModel> lst = new List<VolDeliveryModel>();
        
         DBHelper db = new DBHelper();
 
         List<SqlParameter> parameters = new List<SqlParameter> {new SqlParameter("@UserID",Convert.ToString(UserLogic.LoggedUser.ID)) };
 
-        DataSet ds =  db.ExecuteDataSet("SELECT t1.ID,t2.Name AS stock_name,CompanyId ,Quantity,PurchasePrice,PurchaseDate,S1,S2,S3,SMA5,SMA10,SMA20,SMA50,SMA100,SMA200,R1,R2,R3,DeliveryAverageMonth,DeliveryAverageWeek,DeliveryYesterday FROM CustomerPositions t1 INNER JOIN Company t2 ON t1.Id = t2.Id WHERE UserID = @UserID", parameters, CommandType.Text);
+        DataSet ds =  db.ExecuteDataSet("SELECT t1.ID,t2.Name AS stock_name,CompanyId ,Quantity,PurchasePrice,PurchaseDate,S1,S2,S3,SMA5,SMA10,SMA20,SMA50,SMA100,SMA200,R1,R2,R3,DeliveryAverageMonth,DeliveryAverageWeek,DeliveryYesterday FROM CustomerPositions t1 INNER JOIN Company t2 ON t1.CompanyId = t2.Id WHERE UserID = @UserID", parameters, CommandType.Text);
         if(ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
         {
             foreach(DataRow row in ds.Tables[0].Rows)
@@ -75,63 +76,111 @@ public class PortFolio
             DeliveryAverageMonth = row["DeliveryAverageMonth"] == DBNull.Value ? "0%" : Convert.ToString(row["DeliveryAverageMonth"]),
             DeliveryAverageWeek = row["DeliveryAverageWeek"] == DBNull.Value ? "0%" : Convert.ToString(row["DeliveryAverageWeek"]),
             DeliveryYesterday = row["DeliveryYesterday"] == DBNull.Value ? "0%" : Convert.ToString(row["DeliveryYesterday"]),
+            ISDealType = GetDealType(Convert.ToString(row["stock_name"]))
         };
+
+        NewsModel newsModel = News.GetNews(Convert.ToString(row["stock_name"]));
+        volDeliveryModel.Count = newsModel.Count;
+        volDeliveryModel.link = newsModel.link;
         return volDeliveryModel;
     }
-    public static CombinedPortFolioModel GetAll()
+    public static CombinedModel GetAll()
     {
-        CombinedPortFolioModel portFolioRecords = new CombinedPortFolioModel();
+        CombinedModel combinedModel = new CombinedModel();
         List<VolDeliveryModel> lst = new List<VolDeliveryModel>();
 
         DBHelper db = new DBHelper();
-        DataSet ds = db.ExecuteDataSet("SELECT t1.ID,t2.Name AS stock_name,CompanyId ,Quantity,PurchasePrice,PurchaseDate,S1,S2,S3,SMA5,SMA10,SMA20,SMA50,SMA100,SMA200,R1,R2,R3,DeliveryAverageMonth,DeliveryAverageWeek,DeliveryYesterday FROM CustomerPositions  t1 INNER JOIN Company t2 ON t1.Id = t2.Id", null, CommandType.Text);
+        DataSet ds = db.ExecuteDataSet("SELECT t1.ID,t2.Name AS stock_name,CompanyId ,Quantity,PurchasePrice,PurchaseDate,S1,S2,S3,SMA5,SMA10,SMA20,SMA50,SMA100,SMA200,R1,R2,R3,DeliveryAverageMonth,DeliveryAverageWeek,DeliveryYesterday FROM CustomerPositions  t1 INNER JOIN Company t2 ON t1.CompanyId = t2.Id", null, CommandType.Text);
         if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
         {
             foreach (DataRow row in ds.Tables[0].Rows)
             {
-                lst.Add(FromRow(row));
+                lst.Add(FromRow(row));               
             }
+            combinedModel.PortFolioList = lst;
         }
-        if (lst.Count > 0)
-            portFolioRecords.PortFolioList = lst;
-        return portFolioRecords;
+        combinedModel.NewsRepositoriesModel = News.GetTopFiveNews();
+        return combinedModel;
     }
 
     public static List<StockDetail> GetSector()
     {
         List<StockDetail> stockDetails = new List<StockDetail>();
 
-        DBHelper db = new DBHelper();
-
-        DataSet ds = db.ExecuteDataSet("select ID, Name from Company", null, CommandType.Text);
-        if(ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+        try
         {
-            foreach(DataRow row in ds.Tables[0].Rows)
+            DBHelper db = new DBHelper();
+
+            DataSet ds = db.ExecuteDataSet("select ID, Name from Company", null, CommandType.Text);
+            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
-                StockDetail stockDetail = new StockDetail
+                foreach (DataRow row in ds.Tables[0].Rows)
                 {
-                    ID = Convert.ToInt32(row["ID"]),
-                    Name = Convert.ToString(row["Name"]),
-                };
-                stockDetails.Add(stockDetail);
+                    StockDetail stockDetail = new StockDetail
+                    {
+                        ID = Convert.ToInt32(row["ID"]),
+                        Name = Convert.ToString(row["Name"]),
+                    };
+                    stockDetails.Add(stockDetail);
+                }
             }
         }
+        catch(Exception ex)
+        {
+            throw ex;
+        }
+        
         return stockDetails;
     }
     public static TPDetail GetTP(string Name)
     {
         TPDetail tPDetails = new TPDetail();
 
-        DBHelper db = new DBHelper();
-
-        List<SqlParameter> sqlParameters = new List<SqlParameter>() { new SqlParameter("@name", Name.ToString()) };
-        DataSet ds = db.ExecuteDataSet("SELECT TP_SID,TP_URL FROM Company where Name=@name", sqlParameters, CommandType.Text);
-        if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count == 1)
+        try
         {
-            DataRow row = ds.Tables[0].Rows[0];
-            tPDetails.TPSID = Convert.ToString(row["TP_SID"]);
-            tPDetails.URL = Convert.ToString(row["TP_URL"]);
+            DBHelper db = new DBHelper();
+
+            List<SqlParameter> sqlParameters = new List<SqlParameter>() { new SqlParameter("@name", Name.ToString()) };
+            DataSet ds = db.ExecuteDataSet("SELECT TP_SID,TP_URL FROM Company where Name=@name", sqlParameters, CommandType.Text);
+            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count == 1)
+            {
+                DataRow row = ds.Tables[0].Rows[0];
+                tPDetails.TPSID = Convert.ToString(row["TP_SID"]);
+                tPDetails.URL = Convert.ToString(row["TP_URL"]);
+            }
         }
+        catch(Exception ex)
+        {
+            throw ex;
+        }
+        
         return tPDetails;
+    }
+    public static DealType GetDealType(string cname)
+    {
+        DealType dealType = new DealType();
+        try
+        {
+            DBHelper db = new DBHelper();
+
+            List<SqlParameter> sqlParameters = new List<SqlParameter>() { new SqlParameter("@company", cname.ToString()) };
+            DataSet ds = db.ExecuteDataSet("sp_postivedeal", sqlParameters, CommandType.StoredProcedure);
+            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                dealType.IsPositiveDeal = true;
+            }
+            ds.Clear();
+            ds = db.ExecuteDataSet("sp_negativedeal", sqlParameters, CommandType.StoredProcedure);
+            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                dealType.IsNegativeDeal = true;
+            }
+        }
+        catch(Exception ex)
+        {
+            throw ex;
+        }
+        
+        return dealType;
     }
 }

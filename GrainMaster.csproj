@@ -205,17 +205,20 @@
     <Compile Include="BaseClass\Hashing.cs" />
     <Compile Include="BaseClass\UserLogic.cs" />
     <Compile Include="BuisnessLogic\Deal.cs" />
+    <Compile Include="BuisnessLogic\News.cs" />
     <Compile Include="BuisnessLogic\PortFolio.cs" />
     <Compile Include="BuisnessLogic\Register.cs" />
     <Compile Include="Controllers\DashBoardController.cs" />
     <Compile Include="Controllers\DealController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Controllers\PortFolioController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DealModel.cs" />
+    <Compile Include="Models\NewsModel.cs" />
     <Compile Include="Models\PortFolioModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\User.cs" />
@@ -353,6 +356,7 @@
     <Content Include="Views\DashBoard\Users.cshtml" />
     <Content Include="Views\DashBoard\UserEdit.cshtml" />
     <Content Include="Views\Deal\GetDeal.cshtml" />
+    <Content Include="Views\News\Get.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

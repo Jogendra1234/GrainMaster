@@ -57,6 +57,7 @@ public class PortFolio
     {
         VolDeliveryModel volDeliveryModel = new VolDeliveryModel
         {
+            ID = Convert.ToInt32(row["ID"]),
             StockName = Convert.ToString(row["stock_name"]),
             Quantity = Convert.ToString(row["Quantity"]),
             Price = Convert.ToString(row["PurchasePrice"]),

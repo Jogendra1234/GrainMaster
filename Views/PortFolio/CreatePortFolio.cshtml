@@ -30,22 +30,22 @@
         right: 0px;
     }
     #btnDiv{
-        margin-left:14rem;
+        margin-top:6rem;
         width :12rem;
     }
     div.ist {
         margin-top: 2rem;
         margin-left: 1rem !important;
     }
-    div.IInd, div.IIIrd{
+    div.IInd{
         margin-left: 1rem !important;
     }
-    div.IVth {
+    div.IIIrd {
         display: none;
         margin-left: 1rem !important;
     }
     div.dropdown {
-        width: 17%;
+        width: 30%;
     }
 </style>
 
@@ -147,54 +147,54 @@
         @Html.AntiForgeryToken()
         <div class="card h-100">
             <div class="card-body p-0 border">
-                <div class="row ist">
-                    <div class="form-group">
-                        <label for="name">Stock Name</label>
-                        @Html.EditorFor(m => m.PortFolio.StockName, new { htmlAttributes = new { @class = "form-control", required = "", autofocus = "" } })
+                <div class="row">
+                    <div class="col-lg-7">
+                        <div class="row ist">
+                            <div class="form-group">
+                                <label for="name">Stock Name</label>
+                                @Html.EditorFor(m => m.PortFolio.StockName, new { htmlAttributes = new { @class = "form-control", required = "", autofocus = "" } })
+                            </div>
+                            <div class="form-group dropdown">
+                                <label for="purchaseType">Type</label>
+                                @Html.DropDownList("ddlPurchaseType", new List<SelectListItem>
+                                {   new SelectListItem { Text = "Buy", Value = "1"},
+                                    new SelectListItem { Text = "Sell", Value = "2"}
+                                }, "--Select--", new { @class = "form-control", id = "ddlPurchaseType", required = "" })
+                            </div>
+                            <div class="form-group">
+                                <label for="tpsid">TP SID</label>
+                                @Html.TextBoxFor(m => m.PortFolio.TPSID, new { @class = "form-control", id = "txtTPSID" })
+                            </div>
+
+                        </div>
+                        <div class="row IInd">
+
+                            <div class="form-group">
+                                <label for="quantity">Quantity</label>
+                                @Html.TextBoxFor(m => m.PortFolio.Quantity, new { @class = "form-control", id = "txtQuantity", required = "" })
+                            </div>
+
+                            <div class="form-group">
+                                <label for="price">Price</label>
+                                @Html.TextBoxFor(m => m.PortFolio.Price, new { @class = "form-control", id = "txtPrice", required = "" })
+                            </div>
+                            <div class="form-group">
+                                <label for="date">Date</label>
+                                @Html.EditorFor(m => m.PortFolio.Date, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(m => m.PortFolio.Date, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group dropdown">
-                        <label for="purchaseType">Type</label>
-                        @Html.DropDownList("ddlPurchaseType", new List<SelectListItem>
-                        {   new SelectListItem { Text = "Buy", Value = "1"},
-                            new SelectListItem { Text = "Sell", Value = "2"}
-                        }, "--Select--", new { @class = "form-control", id = "ddlPurchaseType", required = "" })
+                    <div class="col-sm-3">
+                        <div class="row">
+                            <div class="form-group center-block" id="btnDiv">
+                                <input type="submit" id="btnAddPst" value="Add Position" class="btn btn-primary btn-block" onclick=" return ValidateStock();" />
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="tpsid">TP SID</label>
-                        @Html.TextBoxFor(m => m.PortFolio.TPSID, new { @class = "form-control", id = "txtTPSID" })
-                    </div>
-                    
                 </div>
-                <div class="row IInd">
 
-                    <div class="form-group">
-                        <label for="quantity">Quantity</label>
-                        @Html.TextBoxFor(m => m.PortFolio.Quantity, new { @class = "form-control", id = "txtQuantity", required = "" })
-                    </div>
-
-                    <div class="form-group">
-                        <label for="price">Price</label>
-                        @Html.TextBoxFor(m => m.PortFolio.Price, new { @class = "form-control", id = "txtPrice", required = "" })
-                    </div>
-                    <div class="form-group">
-                        <label for="date">Date</label>
-                        @Html.EditorFor(m => m.PortFolio.Date, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(m => m.PortFolio.Date, "", new { @class = "text-danger" })
-                    </div>
-
-                    @*@<div class="form-group no-margin">
-                        <input type="submit" value="save" class="btn btn-primary btn-block" style="margin-top:50%;margin-left:25%;" onclick=" return ValidateStock();" />
-                    </div>*@
-
-                </div>
-
-                <div class="row IIIrd">
-                    <div class="form-group center-block" id="btnDiv">
-                        <input type="submit" id="btnAddPst" value="Add Position" class="btn btn-primary btn-block" onclick=" return ValidateStock();" />
-                    </div>
-                </div>
-
-                <div class="row IVth" id="lblRow">
+                <div class="row IIIrd" id="lblRow">
                     <div class="form-group">
                         <label id="lblTPSID"></label>
                         <label id="lblTPUrl"></label>
@@ -233,7 +233,7 @@
                                             +₹7,213.38 <span class="text-success mx-1">+10.23%</span>
                                         </p>
                                         <p class="small text-muted mb-0" style="padding-top:5px;">
-                                            <a href="#" style="display:@(item.ISDealType.IsPositiveDeal || item.ISDealType.IsNegativeDeal  ? "" : "none")" class="badge badge-pill badge-success" target="_blank">@(item.ISDealType.IsPositiveDeal? "Positive Deals" : "Negative Deals" )</a>
+                                            <a href="../Deal/GetDeal" style="display:@(item.ISDealType.IsPositiveDeal || item.ISDealType.IsNegativeDeal  ? "" : "none")" class="badge badge-pill badge-success" target="_blank">@(item.ISDealType.IsPositiveDeal? "Positive Deals" : "Negative Deals" )</a>
                                             <a href="@(item.Count > 0 ? item.link : "#")" style="display:@(item.Count > 0 ? "" : "none")" class="badge badge-pill badge-success" target="_blank">News</a>
                                             <a href="#" class="badge badge-pill badge-success">Volume Spiked</a>
                                         </p>

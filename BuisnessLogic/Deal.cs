@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Web;
 
 namespace GrainMaster.BuisnessLogic
 {
@@ -35,6 +33,7 @@ namespace GrainMaster.BuisnessLogic
                                 {
                                     Company = Convert.ToString(row["company"]),
                                     Quantity = Convert.ToString(row["Total Quantity"]),
+                                    Price = Convert.ToDecimal(row["price_Traded"]),
                                     TranDate = Convert.ToDateTime(row["trnasactionDate"]).ToString("dd-MM-yyy"),
                                 });
                             }
@@ -45,6 +44,8 @@ namespace GrainMaster.BuisnessLogic
                                     Company = Convert.ToString(row["company"]),
                                     TotalBuyQuantity = Convert.ToString(row["TotalBuyQuantity"]),
                                     TotalSellQuantity = Convert.ToString(row["TotalSellQuantity"]),
+                                    TotalBuyPrice = Convert.ToDecimal(row["TotalBuyPrice"]),
+                                    TotalSellPrice = Convert.ToDecimal(row["TotalSellPrice"]),
                                     TransactionDate = Convert.ToDateTime(row["trnasactionDate"]).ToString("dd-MM-yyy"),
                                 }) ;
                             }

@@ -38,6 +38,10 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @if (Model.OnlyBuy.Count() == 0)
+                            {
+                                <tr><td colspan="5" class="text-danger text-center">No Record found.</td></tr>
+                            }
                             @foreach (var item in Model.OnlyBuy)
                             {
                                 <tr>
@@ -65,6 +69,10 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @if (Model.OnlySell.Count() == 0)
+                            {
+                                <tr><td colspan="5" class="text-danger text-center">No Record found.</td></tr>
+                            }
                             @foreach (var item in Model.OnlySell)
                             {
                                 <tr>
@@ -92,6 +100,10 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @if (Model.BuyGTSell.Count() == 0)
+                            {
+                                <tr><td colspan="7" class="text-danger text-center">No Record found.</td></tr>
+                            }
                             @foreach (var item in Model.BuyGTSell)
                             {
                                 <tr>
@@ -121,6 +133,10 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @if (Model.SellGTBuy.Count() == 0)
+                            {
+                                <tr><td colspan="7" class="text-danger text-center">No Record found.</td></tr>
+                            }
                             @foreach (var item in Model.SellGTBuy)
                             {
                                 <tr>

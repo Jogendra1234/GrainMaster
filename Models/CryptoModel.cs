@@ -1,14 +1,13 @@
-﻿using System;
-
-namespace GrainMaster.Models
+﻿namespace GrainMaster.Models
 {
     public class CryptoModel
-	{
-		public int Id { get; set; }
-		public string Name { get; set; }
-		public decimal TotalBuyPrice { get; set; }
-		public decimal TotalSellPrice { get; set; }
-		public DateTime Date { get; set; }
-		public decimal CurrentPrice { get; set; }
-	}
+    {
+        public string Name { get; set; }
+        public string Symbol { get; set; }
+        public string Image { get; set; }
+        public decimal CurrentPrice { get; set; }
+        public decimal Volume_Change_15M_percent { get; set; }
+        public decimal Volume_Change_30M_percent { get; set; }
+        public decimal Volume_Change_1h_percent { get; set; }
+    }
 }

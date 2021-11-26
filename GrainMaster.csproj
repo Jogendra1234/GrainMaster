@@ -184,6 +184,7 @@
     <Content Include="resources\graindashboard\js\vendor.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="wwwroot\js\tablepagination.js" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -205,10 +206,12 @@
     <Compile Include="BaseClass\Hashing.cs" />
     <Compile Include="BaseClass\UserLogic.cs" />
     <Compile Include="BuisnessLogic\Campaigen.cs" />
+    <Compile Include="BuisnessLogic\Crypto.cs" />
     <Compile Include="BuisnessLogic\Deal.cs" />
     <Compile Include="BuisnessLogic\News.cs" />
     <Compile Include="BuisnessLogic\PortFolio.cs" />
     <Compile Include="BuisnessLogic\Register.cs" />
+    <Compile Include="Controllers\CampaigenController.cs" />
     <Compile Include="Controllers\CryptoController.cs" />
     <Compile Include="Controllers\DashBoardController.cs" />
     <Compile Include="Controllers\DealController.cs" />
@@ -219,6 +222,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CampaigenModel.cs" />
     <Compile Include="Models\CryptoModel.cs" />
     <Compile Include="Models\DealModel.cs" />
     <Compile Include="Models\NewsModel.cs" />
@@ -360,7 +364,8 @@
     <Content Include="Views\DashBoard\UserEdit.cshtml" />
     <Content Include="Views\Deal\GetDeal.cshtml" />
     <Content Include="Views\News\Get.cshtml" />
-    <Content Include="Views\Crypto\GetCampaigen.cshtml" />
+    <Content Include="Views\Campaigen\GetCampaigen.cshtml" />
+    <Content Include="Views\Crypto\GetCrypto.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

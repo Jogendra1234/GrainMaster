@@ -3,6 +3,10 @@
     ViewBag.Title = "GetCampaigen";
     Layout = "~/Views/Shared/_master.cshtml";
 }
+<script src="~/JS/jquery-1.10.2.js"></script>
+<script src="~/JS/jquery.dataTables.min.js"></script>
+<script src="~/JS/dataTables.bootstrap4.min.js"></script>
+<link href="~/Content/dataTables.bootstrap4.min.css" rel="stylesheet" />
 
 @if (ViewBag.Message != null)
 {
@@ -24,16 +28,17 @@
                         <thead>
                             <tr>
                                 <th class="font-weight-semi-bold border-top-0 py-2">Name</th>
-                                <th class="font-weight-semi-bold border-top-0 py-2">Buy Price</th>
-                                <th class="font-weight-semi-bold border-top-0 py-2">Sell Price</th>
+                                <th class="font-weight-semi-bold border-top-0 py-2">Symbol</th>
+                                <th class="font-weight-semi-bold border-top-0 py-2">Image</th>
                                 <th class="font-weight-semi-bold border-top-0 py-2">Current Price</th>
-                                <th class="font-weight-semi-bold border-top-0 py-2">Date</th>
-                                <th class="font-weight-semi-bold border-top-0 py-2">Price change(%)</th>
-                                <th class="font-weight-semi-bold border-top-0 py-2">Action</th>
+                                <th class="font-weight-semi-bold border-top-0 py-2">Volume change in 15 Minutes(%)</th>
+                                <th class="font-weight-semi-bold border-top-0 py-2">Volume change in 30 Minutes(%)</th>
+                                <th class="font-weight-semi-bold border-top-0 py-2">Volume change in 1 hr(%)</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if(Model.Count() == 0){
+                            @if (Model.Count() == 0)
+                            {
                                 <tr><td colspan="7" class="text-danger text-center">No Record found.</td></tr>
                             }
 
@@ -42,13 +47,13 @@
                                 <tr>
                                     <td class="py-3">@item.Name</td>
                                     <td class="py-3">
-                                        @item.TotalBuyPrice
+                                        @item.Symbol
                                     </td>
-                                    <td class="py-3">@item.TotalSellPrice</td>
+                                    <td class="py-3"><img src="@item.Image" alt="" style="width:3rem;" /></td>
                                     <td class="py-3">@item.CurrentPrice</td>
-                                    <td class="py-3">@item.Date.ToString("MM/dd/yyyy")</td>
-                                    <td class="py-3">0 % </td>
-                                    <td class="py-3">@Html.ActionLink("Delete", "Delete", new { id = item.Id })</td>
+                                    <td class="py-3">@item.Volume_Change_15M_percent</td>
+                                    <td class="py-3">@item.Volume_Change_30M_percent</td>
+                                    <td class="py-3">@item.Volume_Change_1h_percent</td>
                                 </tr>
                             }
 
@@ -59,4 +64,11 @@
         </div>
     </div>
 </div>
+<script src="~/wwwroot/js/tablepagination.js"></script>
+<script>
+    $(document).ready(function () {
+        $.noConflict();
+        pagination("#table1");
+    });
+</script>
 

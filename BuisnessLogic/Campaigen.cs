@@ -8,7 +8,7 @@ namespace GrainMaster.BuisnessLogic
 {
     public class Campaigen
     {
-        public static bool SaveCampaigen(CryptoModel crypto)
+        public static bool SaveCampaigen(CampaigenModel crypto)
         {
             bool isSave;
             try
@@ -35,13 +35,13 @@ namespace GrainMaster.BuisnessLogic
             return isSave;
         }
 
-        public static List<CryptoModel> Get()
+        public static List<CampaigenModel> Get()
         {
             try
             {
                 DBHelper db = new DBHelper();
 
-                List<CryptoModel> cryptos = new List<CryptoModel>();
+                List<CampaigenModel> campaigens = new List<CampaigenModel>();
                 List<SqlParameter> parameters = new List<SqlParameter>() { new SqlParameter("@UserID", UserLogic.LoggedUser.ID) };
                
                 DataSet ds= db.ExecuteDataSet("sp_GetCampaigen", parameters, CommandType.StoredProcedure);
@@ -49,7 +49,7 @@ namespace GrainMaster.BuisnessLogic
                 {
                     foreach (DataRow row in ds.Tables[0].Rows)
                     {
-                        cryptos.Add(new CryptoModel()
+                        campaigens.Add(new CampaigenModel()
                         {
                             Id = Convert.ToInt32(row["ID"]),
                             Name = Convert.ToString(row["Name"]),
@@ -61,7 +61,7 @@ namespace GrainMaster.BuisnessLogic
                     }
                     
                 }
-                return cryptos;
+                return campaigens;
             }
             catch (Exception ex)
             {

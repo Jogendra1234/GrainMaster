@@ -156,16 +156,18 @@
         </div>
     </div>
 </div>
+<script src="~/wwwroot/js/tablepagination.js"></script>
 <script>
     $(document).ready(function () {
 
         $.noConflict();
-        $('#tblOnlySell,#tblonlyBuy,#tblBuyGTSell,#tblSellGTBuy').DataTable({
-            "pagingType": "simple_numbers" // "simple" option for 'Previous' and 'Next' buttons only
-        });
-        $('.dataTables_length').addClass('bs-select');
-        $('.dataTables_length,.dataTables_info,.dataTables_paginate').show();
-        $('.dataTables_length').css("margin-top", "12px");
+        pagination("#tblOnlySell,#tblonlyBuy,#tblBuyGTSell,#tblSellGTBuy");
+        //$('#tblOnlySell,#tblonlyBuy,#tblBuyGTSell,#tblSellGTBuy').DataTable({
+        //    "pagingType": "simple_numbers" // "simple" option for 'Previous' and 'Next' buttons only
+        //});
+        //$('.dataTables_length').addClass('bs-select');
+        //$('.dataTables_length,.dataTables_info,.dataTables_paginate').show();
+        //$('.dataTables_length').css("margin-top", "12px");
     });
 
     function SaveCampaigen(event) {

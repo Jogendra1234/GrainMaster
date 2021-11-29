@@ -27,9 +27,9 @@
                     <table id="table1" class="table text-nowrap mb-0">
                         <thead>
                             <tr>
+                                <th class="font-weight-semi-bold border-top-0 py-2">Image</th>
                                 <th class="font-weight-semi-bold border-top-0 py-2">Name</th>
                                 <th class="font-weight-semi-bold border-top-0 py-2">Symbol</th>
-                                <th class="font-weight-semi-bold border-top-0 py-2">Image</th>
                                 <th class="font-weight-semi-bold border-top-0 py-2">Current Price</th>
                                 <th class="font-weight-semi-bold border-top-0 py-2">Volume change in 15 Minutes(%)</th>
                                 <th class="font-weight-semi-bold border-top-0 py-2">Volume change in 30 Minutes(%)</th>
@@ -45,15 +45,13 @@
                             @foreach (var item in Model)
                             {
                                 <tr>
-                                    <td class="py-3">@item.Name</td>
-                                    <td class="py-3">
-                                        @item.Symbol
-                                    </td>
                                     <td class="py-3"><img src="@item.Image" alt="" style="width:3rem;" /></td>
+                                    <td class="py-3">@item.Name</td>
+                                    <td class="py-3">@item.Symbol</td>
                                     <td class="py-3">@item.CurrentPrice</td>
-                                    <td class="py-3">@item.Volume_Change_15M_percent</td>
-                                    <td class="py-3">@item.Volume_Change_30M_percent</td>
-                                    <td class="py-3">@item.Volume_Change_1h_percent</td>
+                                    <td class="py-3" style="color:@(item.Volume_Change_15M_percent>=0 ? "lawngreen" : "red")">@item.Volume_Change_15M_percent</td>
+                                    <td class="py-3" style="color:@(item.Volume_Change_30M_percent>=0 ? "lawngreen" : "red")">@item.Volume_Change_30M_percent</td>
+                                    <td class="py-3" style="color:@(item.Volume_Change_1h_percent>=0 ? "lawngreen" : "red")">@item.Volume_Change_1h_percent</td>
                                 </tr>
                             }
 

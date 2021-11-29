@@ -113,7 +113,7 @@
                                     <td id="tdBuyPrice">@item.TotalBuyPrice</td>
                                     <td id="tdSellPrice">@item.TotalSellPrice</td>
                                     <td id="tddate">@item.TransactionDate</td>
-                                    <td><a href="#" onclick="SaveBuyGTSellCampaigen(this)" class="add">Add Campaigen</a></td>
+                                    <td><a href="#" onclick="SaveCampaigen(this)" class="add">Add Campaigen</a></td>
                                 </tr>
                             }
                         </tbody>
@@ -162,12 +162,6 @@
 
         $.noConflict();
         pagination("#tblOnlySell,#tblonlyBuy,#tblBuyGTSell,#tblSellGTBuy");
-        //$('#tblOnlySell,#tblonlyBuy,#tblBuyGTSell,#tblSellGTBuy').DataTable({
-        //    "pagingType": "simple_numbers" // "simple" option for 'Previous' and 'Next' buttons only
-        //});
-        //$('.dataTables_length').addClass('bs-select');
-        //$('.dataTables_length,.dataTables_info,.dataTables_paginate').show();
-        //$('.dataTables_length').css("margin-top", "12px");
     });
 
     function SaveCampaigen(event) {
@@ -181,7 +175,7 @@
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
-                url: '/Crypto/InsertCampaigen',
+                url: '/Campaigen/InsertCampaigen',
                 data: data,
                 success: function (response) {
                     if (response != undefined && response) {

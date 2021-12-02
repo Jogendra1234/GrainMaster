@@ -48,6 +48,36 @@ namespace GrainMaster.Controllers
             
         }
 
+        [HttpGet]
+        public ActionResult DeletePortFolio(int id)
+        {
+            try
+            {
+                PortFolio.Delete(id);
+                return RedirectToAction("CreatePortFolio", "PortFolio");
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        
+
+        [HttpPost]
+        public JsonResult UpdatePortFolio(PortFolioModel portFolioModel)
+        {
+            try
+            {
+                return Json(PortFolio.Edit(portFolioModel), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
         [HttpPost]
         public JsonResult StockDetail(string Prefix)
         {

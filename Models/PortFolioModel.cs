@@ -15,6 +15,7 @@ namespace GrainMaster.Models
         public string Price { get; set; }
         [Required]
         public DateTime Date { get; set; }
+        [Required]
         public int PurchaseType { get; set; }
         public string TPSID { get; set; }
 

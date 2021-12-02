@@ -26,4 +26,23 @@ public class Register
             return false;
         }        
     }
+
+    public static bool ChangePassword(ChangePasswordModel param)
+    {
+        try
+        {
+            DBHelper db = new DBHelper();
+            List<SqlParameter> parameters = new List<SqlParameter>()
+            {
+                new SqlParameter("@email",UserLogic.LoggedUser.Email.ToString()),
+                new SqlParameter("@password",PasswordHashing.Hash(param.NewPassword.ToString()))
+            };
+            db.ExecuteNonQuery("sp_changePassword", parameters, CommandType.StoredProcedure);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
 }

@@ -20,4 +20,19 @@ namespace GrainMaster.Models
         [Display(Name = "Password")]
         public string Password { get; set; }
     }
+
+    public class ChangePasswordModel
+    {
+
+        [Required]
+        public string Password { get; set; }
+
+        [Required]
+        public string NewPassword { get; set; }
+
+        [Required, Compare("NewPassword", ErrorMessage = "The NewPassword and confirmation password do not match.")]
+        public string ConfirmNewPassword { get; set; }
+
+
+    }
 }

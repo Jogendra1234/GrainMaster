@@ -11,15 +11,12 @@
     #PortFolio_StockName, #txtQuantity, #txtPrice, #PortFolio_Date, #txtTPSID, select#ddlPurchaseType {
         min-width: 0px !important;
         max-width: 95% !important;
-        margin-left: 6% !important;
+        /*margin-left: 6% !important;*/
     }
-    #btnAddPst {
-        margin-left: 7% !important;
+    #btnAddPst, #btnUpdatePst {
+        margin-top: 2rem;
     }
 
-    label {
-        margin-left: 6% !important;
-    }
     #lblTPSID, #lblTPUrl {
         margin-left: 1rem !important;
     }
@@ -28,10 +25,6 @@
         position: absolute;
         top: 1rem;
         right: 0px;
-    }
-    #btnDiv{
-        margin-top:10rem;
-        width :9rem;
     }
     div.ist {
         margin-top: 2rem;
@@ -44,8 +37,12 @@
         display: none;
         margin-left: 1rem !important;
     }
-    div.dropdown {
-        width: 30%;
+    .visible {
+        visibility: visible;
+    }
+
+    .invisible {
+        visibility: hidden;
     }
 </style>
 
@@ -55,7 +52,8 @@
         $("#PortFolio_Date").datepicker({
             dateFormat: "dd-mm-yy",
             changeMonth: true,
-            changeYear: true
+            changeYear: true,
+            maxDate: new Date()
         });
 
         $("#PortFolio_StockName").autocomplete({
@@ -90,6 +88,8 @@
                 noResults: "", results: ""
             }
         });
+
+        $("#btnAddPst").css("display", "block");
     });
 
     function GetTP(CompanyName) {
@@ -101,7 +101,7 @@
                 data: { CName: CompanyName },
                 success: function (data) {
                     if (data != undefined) {
-                        $("div.IVth").show();
+                        $("div.IIIrd").show();
                         if (data.TPSID != "")
                             $("#lblTPSID").wrapInner("<b>TP SID : </b>" + data.TPSID);
                         if (data.URL != "")
@@ -118,9 +118,14 @@
         }
     }
     function ValidateStock() {
+        var msg = "";
+        msg += validation();
         var txtStock = $("#PortFolio_StockName").val();
-        if (!stockExists(txtStock)) {
-            alert("Stock Name is not matching with sytem data !!");
+        if (!stockExists(txtStock))
+            msg += "Stock Name is not matching with sytem data !!";
+
+        if (msg.trim() != "") {
+            alert(msg);
             return false;
         }
     }
@@ -132,6 +137,83 @@
             });
         }
         return false;
+    }
+    function validation() {
+        var msg = "";
+        var txtPrice = $("#txtPrice").val();
+        if ( !$.isNumeric(txtPrice)) {
+            msg += "Price should be numeric!!\n";
+        }
+        var txtQuantity = $("#txtQuantity").val();
+        if (!$.isNumeric(txtQuantity)) {
+            msg += "Quantity should be numeric!!";
+        }
+
+        return msg;
+    }
+
+    function BindInfo(StockName, Price, Quantity, ID, date, PurchaseType)
+    {
+        localStorage.removeItem("ID");
+
+        $("#btnAddPst").css("display", "none");
+        $("#btnUpdatePst").css("display", "block");
+
+        if (StockName != "")
+            $("#PortFolio_StockName").val(StockName);
+        if (Price != "")
+            $("#txtPrice").val(Price);
+        if (Quantity != "")
+            $("#txtQuantity").val(Quantity);
+        if (PurchaseType != undefined)
+            $("select#ddlPurchaseType").prop('selectedIndex', PurchaseType);
+        if (date != null && date != "")
+            $("#PortFolio_Date").val(date.toString("dd/MM/yyy"));
+
+        localStorage.setItem("ID", ID);
+    }
+
+    function Update() {
+        validation();
+        var name = $("#PortFolio_StockName").val();
+        var price = $("#txtPrice").val();
+        var quantity = $("#txtQuantity").val();
+        var purchaseType = $("select#ddlPurchaseType").prop('selectedIndex');
+        var date = $("#PortFolio_Date").val();
+        try {
+            $.ajax({
+                url: "/PortFolio/UpdatePortFolio",
+                type: "POST",
+                dataType: "json",
+                data: { ID: parseInt(localStorage.getItem("ID")), StockName: name, Quantity: quantity, Price: price, Date: date, PurchaseType: purchaseType },
+                success: function (data) {
+                    if (data != undefined && data) {
+                        alert("Portfolio updated successfully!!");
+                        clear();
+                        $("#btnUpdatePst").css("display", "none");
+                        $("#btnAddPst").css("display", "block");
+                        location.reload();
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
+                }
+            });
+        }
+        catch (e) {
+            console.log(e.messages);
+        }
+    }
+
+    function clear()
+    {
+        $("#PortFolio_StockName").val("");
+        $("#txtPrice").val("");
+        $("#txtQuantity").val("");
+        $("select#ddlPurchaseType").prop('selectedIndex',-1);
+        $("#PortFolio_Date").val("");
+        localStorage.removeItem("ID");
+
     }
 </script>
 
@@ -148,47 +230,45 @@
         <div class="card h-100">
             <div class="card-body p-0 border">
                 <div class="row">
-                    <div class="col-lg-7">
+                    <div class="col-lg-12">
                         <div class="row ist">
-                            <div class="form-group">
-                                <label for="name">Stock Name</label>
+                            <div class="form-group col-md-3">
+                                <label for="name">Stock Name</label><span class = "text-danger">*</span>
                                 @Html.EditorFor(m => m.PortFolio.StockName, new { htmlAttributes = new { @class = "form-control", required = "", autofocus = "" } })
                             </div>
-                            <div class="form-group dropdown">
-                                <label for="purchaseType">Type</label>
+                            <div class="form-group col-md-3">
+                                <label for="purchaseType">Type</label>&nbsp;<span class="text-danger">*</span>
                                 @Html.DropDownList("ddlPurchaseType", new List<SelectListItem>
                                 {   new SelectListItem { Text = "Buy", Value = "1"},
                                     new SelectListItem { Text = "Sell", Value = "2"}
                                 }, "--Select--", new { @class = "form-control", id = "ddlPurchaseType", required = "" })
                             </div>
-                            <div class="form-group">
+                            <div class="col-auto">
                                 <label for="tpsid">TP SID</label>
-                                @Html.TextBoxFor(m => m.PortFolio.TPSID, new { @class = "form-control", id = "txtTPSID" })
+                                @Html.TextBoxFor(m => m.PortFolio.TPSID, new { @class = "form-control", id = "txtTPSID", autocomplete = "off" })
+                            </div>
+                            <div class="col-auto">
+                                <label for="quantity">Quantity</label>
+                                @Html.ValidationMessageFor(m => m.PortFolio.Quantity, "*", new { @class = "text-danger" })
+                                @Html.TextBoxFor(m => m.PortFolio.Quantity, new { @class = "form-control", id = "txtQuantity", required = "", autocomplete = "off" })
                             </div>
 
                         </div>
                         <div class="row IInd">
-
-                            <div class="form-group">
-                                <label for="quantity">Quantity</label>
-                                @Html.TextBoxFor(m => m.PortFolio.Quantity, new { @class = "form-control", id = "txtQuantity", required = "" })
-                            </div>
-
-                            <div class="form-group">
+                            <div class="form-group col-md-3">
                                 <label for="price">Price</label>
-                                @Html.TextBoxFor(m => m.PortFolio.Price, new { @class = "form-control", id = "txtPrice", required = "" })
+                                @Html.ValidationMessageFor(m => m.PortFolio.Price, "*", new { @class = "text-danger" })
+                                @Html.TextBoxFor(m => m.PortFolio.Price, new { @class = "form-control", id = "txtPrice", required = "", autocomplete = "off" })
+
                             </div>
-                            <div class="form-group">
+                            <div class="col-3">
                                 <label for="date">Date</label>
-                                @Html.EditorFor(m => m.PortFolio.Date, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(m => m.PortFolio.Date, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(m => m.PortFolio.Date, "*", new { @class = "text-danger" })
+                                @Html.EditorFor(m => m.PortFolio.Date, new { htmlAttributes = new { @class = "form-control", required = "", autocomplete = "off" } })
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="row">
-                            <div class="form-group center-block" id="btnDiv">
-                                <input type="submit" id="btnAddPst" value="Add Position" class="btn btn-primary btn-block" onclick=" return ValidateStock();" />
+                            <div class="form-group col-4">
+                                <input type="submit" id="btnAddPst" value="Add Position" class="btn btn-primary" onclick=" return ValidateStock();" />
+                                <input type="button" id="btnUpdatePst" value="Update" class="btn btn-primary" style="display:none;" onclick=" return Update();"  />
                             </div>
                         </div>
                     </div>
@@ -240,15 +320,15 @@
                                         <p class="small text-muted mb-0" style="padding-top:15px;">
                                             <span class="badge badge-complex bg-semi-soft-primary text-white">
                                                 <span class="badge badge-sm badge-danger rounded-circle mr-2">LD</span>
-                                                <span style="font-size:medium;">@item.DeliveryYesterday&nbsp;&nbsp;</span>
+                                                <span style="font-size:medium;">@(item.DeliveryYesterday != "" ? item.DeliveryYesterday : "0%")&nbsp;&nbsp;</span>
                                             </span>
                                             <span class="badge  badge-complex bg-semi-soft-primary text-white">
                                                 <span class="badge badge-sm badge-danger rounded-circle mr-2">WD</span>
-                                                <span style="font-size:medium;">@item.DeliveryAverageWeek&nbsp;&nbsp;</span>
+                                                <span style="font-size:medium;">@(item.DeliveryAverageWeek!= "" ? item.DeliveryYesterday : "0%")&nbsp;&nbsp;</span>
                                             </span>
                                             <span class="badge  badge-complex bg-semi-soft-primary text-white">
                                                 <span class="badge badge-sm badge-danger rounded-circle mr-2">MD</span>
-                                                <span style="font-size:medium;">@item.DeliveryAverageMonth&nbsp;&nbsp;</span>
+                                                <span style="font-size:medium;">@(item.DeliveryAverageMonth!= "" ? item.DeliveryYesterday : "0%")&nbsp;&nbsp;</span>
                                             </span>
                                         </p>
                                         <p class="small text-muted mb-0" style="padding-top:5px;">
@@ -309,13 +389,14 @@
                                         </p>
 
                                         <p class="small mb-0 text-darker" style="padding-top:25px;">
-                                            <button class="btn btn-warning btn-sm rounded-pill" type="button">Edit</button>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            Added : <strong>@Convert.ToDateTime(item.Date).ToString("dd MMMM yyy")</strong>
+                                            <button class="btn btn-warning btn-sm rounded-pill" type="button" onclick=" return BindInfo('@item.StockName.ToString()', @item.Price, @item.Quantity, @item.ID, '@item.Date',@item.PurchaseType)">Edit</button>
+                                            
+                                            @Html.ActionLink("Delete", "DeletePortFolio", "PortFolio", new { id = @item.ID },new { @class="btn btn-danger btn-sm rounded-pill"})
+                                            
                                         </p>
-                                        @*<p class="small mb-0 text-darker" style="text-align:right;">
+                                        <p class="small mb-0 text-darker" style="text-align:right;">
                                                 Added : <strong>@Convert.ToDateTime(item.Date).ToString("dd MMMM yyy")</strong>
-                                            </p>*@
+                                        </p>
                                     </div>
                                 </div>
                             </div>

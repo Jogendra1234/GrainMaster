@@ -1,8 +1,10 @@
-﻿
+﻿@model GrainMaster.Models.ChangePasswordModel
 @{
     ViewBag.Title = "Settings";
     Layout = "~/Views/Shared/_master.cshtml";
 }
+
+
 
 <div class="py-4 px-3 px-md-4">
     <div class="card mb-3 mb-md-4">
@@ -26,15 +28,19 @@
 
             <!-- Form -->
             <div>
-                <form>
+                @*<form method="post">*@
+                @using (Html.BeginForm("Settings", "DashBoard", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-row"><span class="text-danger msg">@ViewData["result"]</span></div>
                     <div class="form-row">
                         <div class="form-group col-12 col-md-6">
                             <label for="name">Name</label>
-                            <input type="text" class="form-control" value="" id="name" name="name" placeholder="User Name">
+                            <input type="text" class="form-control" value="@UserLogic.LoggedUser.Name" id="name" name="name" placeholder="User Name" readonly>
                         </div>
                         <div class="form-group col-12 col-md-6">
                             <label for="email">Email</label>
-                            <input type="email" class="form-control" value="" id="email" name="email" placeholder="User Email">
+                            <input type="email" class="form-control" value="@UserLogic.LoggedUser.Email" id="email" name="email" placeholder="User Email" readonly>
                         </div>
                     </div>
                     <div class="form-row">
@@ -43,22 +49,51 @@
                         </div>
                         <div class="form-group col-12 col-md-4">
                             <label for="old_password">Current Password</label>
-                            <input type="password" class="form-control" value="" id="old_password" name="old_password" placeholder="Current Password">
+                            <span class="text-danger">*</span>
+                            @Html.TextBoxFor(m => m.Password, new { @class = "form-control", required = "", type = "password", id = "txtOldPass", autocomplete = "off" })
+                            @*<input type="password" class="form-control" form="old_password" id="old_password" name="old_password" placeholder="Current Password">*@
                         </div>
                         <div class="form-group col-12 col-md-4">
                             <label for="password">New Password</label>
-                            <input type="password" class="form-control" value="" id="password" name="password" placeholder="New Password">
+                            <span class="text-danger">*</span>
+                            @Html.TextBoxFor(m => m.NewPassword, new { @class = "form-control", required = "", type = "password", id = "txtNewPass", autocomplete = "off" })
+                            @*<input type="password" class="form-control" value="" id="password" name="password" placeholder="New Password">*@
                         </div>
                         <div class="form-group col-12 col-md-4">
                             <label for="password_confirm">Repeat New Password</label>
-                            <input type="password" class="form-control" value="" id="password_confirm" name="password_confirm" placeholder="Repeat New Password">
+                            <span class="text-danger">*</span>
+                            @Html.TextBoxFor(m => m.ConfirmNewPassword, new { @class = "form-control", required = "", type = "password", id = "txtCnfNewPass", autocomplete = "off" })
+                            @*<input type="password" class="form-control" value="" id="password_confirm" name="password_confirm" placeholder="Repeat New Password">*@
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary float-right">Update</button>
-                </form>
+                    <input type="submit" class="btn btn-primary float-right" value="Update" onclick="return Validation();"/>
+                }
+                @*</form>*@
             </div>
             <!-- End Form -->
         </div>
     </div>
 </div>
+<script src="~/JS/jquery-1.10.2.js"></script>
+<script>
+    function Validation() {
+
+        if ($("#txtOldPass").val() == $("#txtNewPass").val()) {
+            $("span.msg").text("Current password and new password should not be same !!");
+            return false;
+        }
+        if ($("#txtNewPass").val() != $("#txtCnfNewPass").val()) {
+            $("span.msg").text('New password and confirm password should be matched !!');
+            return false;
+            //alert('New password and confirm password should be matched !!');
+        }
+
+        $("span.msg").text('@ViewData["result"]');
+        $("#txtOldPass").val('');
+        $("#txtNewPass").val('');
+        $("#txtCnfNewPass").val('');
+        
+    }
+</script>
+
 

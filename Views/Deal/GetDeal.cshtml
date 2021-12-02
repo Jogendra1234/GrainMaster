@@ -8,7 +8,11 @@
 <script src="~/JS/jquery.dataTables.min.js"></script>
 <script src="~/JS/dataTables.bootstrap4.min.js"></script>
 <link href="~/Content/dataTables.bootstrap4.min.css" rel="stylesheet" />
-
+<style type="text/css">
+    #nav-tabContent{
+        background-color:white;
+    }
+</style>
 <div class="py-4 px-3 px-md-4">
     <div class="mb-3 mb-md-4 d-flex justify-content-between">
         <div class="h3 mb-0">
@@ -26,7 +30,7 @@
                 </div>
             </nav>
             <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-onlybuy" role="tabpanel" aria-labelledby="nav-onlybuy-tab">
+                <div class="tab-pane fade table-responsive-xl show active" id="nav-onlybuy" role="tabpanel" aria-labelledby="nav-onlybuy-tab">
                     <table id="tblonlyBuy" class="table text-nowrap mb-0" style="width:100%;background-color:white !important;">
                         <thead>
                             <tr>
@@ -34,7 +38,7 @@
                                 <th>Total Quantity</th>
                                 <th>Price</th>
                                 <th>Date</th>
-                                <th>Action</th>
+                                <th id="thbtn"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -49,15 +53,16 @@
                                     <td>@item.Quantity</td>
                                     <td id="tdBuyPrice">@item.Price</td>
                                     <td id="tddate">@item.TranDate</td>
-                                    <td>
-                                        <a href="#" onclick="SaveCampaigen(this)" class="add">Add Campaigen</a>
+                                    <td id="tdbtn">
+                                        <button type="button" class="btn btn-success btn-sm rounded-pill" onclick="SaveCampaigen(this)">Add Campaigen</button>
+                                        @*<a href="#" onclick="SaveCampaigen(this)" class="add">Add Campaigen</a>*@
                                     </td>
                                 </tr>
                             }
                         </tbody>
                     </table>
                 </div>
-                <div class="tab-pane fade" id="nav-onlysell" role="tabpanel" aria-labelledby="nav-onlysell-tab">
+                <div class="tab-pane table-responsive-xl fade" id="nav-onlysell" role="tabpanel" aria-labelledby="nav-onlysell-tab">
                     <table id="tblOnlySell" class="table text-nowrap mb-0" style="width:100%;background-color:white !important;">
                         <thead>
                             <tr>
@@ -65,7 +70,7 @@
                                 <th>Total Quantity</th>
                                 <th>Price</th>
                                 <th>Date</th>
-                                <th>Action</th>
+                                <th id="thbtn"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -80,13 +85,13 @@
                                     <td>@item.Quantity</td>
                                     <td id="tdSellPrice">@item.Price</td>
                                     <td id="tddate">@item.TranDate</td>
-                                    <td><a href="#" onclick="SaveCampaigen(this)" class="add">Add Campaigen</a></td>
+                                    <td id="tdbtn"><button type="button" class="btn btn-success btn-sm rounded-pill" onclick="SaveCampaigen(this)">Add Campaigen</button></td>
                                 </tr>
                             }
                         </tbody>
                     </table>
                 </div>
-                <div class="tab-pane fade" id="nav-buygtsell" role="tabpanel" aria-labelledby="nav-buygtsell-tab">
+                <div class="tab-pane table-responsive-xl fade" id="nav-buygtsell" role="tabpanel" aria-labelledby="nav-buygtsell-tab">
                     <table id="tblBuyGTSell" class="table text-nowrap mb-0" style="width:100%;background-color:white !important;">
                         <thead>
                             <tr>
@@ -96,7 +101,7 @@
                                 <th>Total Buy Price</th>
                                 <th>Total Sell Price</th>
                                 <th>Date</th>
-                                <th>Action</th>
+                                <th id="thbtn"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -113,13 +118,13 @@
                                     <td id="tdBuyPrice">@item.TotalBuyPrice</td>
                                     <td id="tdSellPrice">@item.TotalSellPrice</td>
                                     <td id="tddate">@item.TransactionDate</td>
-                                    <td><a href="#" onclick="SaveCampaigen(this)" class="add">Add Campaigen</a></td>
+                                    <td><button type="button" class="btn btn-success btn-sm rounded-pill" onclick="SaveCampaigen(this)">Add Campaigen</button></td>
                                 </tr>
                             }
                         </tbody>
                     </table>
                 </div>
-                <div class="tab-pane fade" id="nav-sellgtbuy" role="tabpanel" aria-labelledby="nav-sellgtbuy-tab">
+                <div class="tab-pane table-responsive-xl fade" id="nav-sellgtbuy" role="tabpanel" aria-labelledby="nav-sellgtbuy-tab">
                     <table id="tblSellGTBuy" class="table text-nowrap mb-0" style="width:100%;background-color:white !important;">
                         <thead>
                             <tr>
@@ -129,7 +134,7 @@
                                 <th>Total Sell Price</th>
                                 <th>Total Buy Price</th>
                                 <th>Date</th>
-                                <th>Action</th>
+                                <th id="thbtn"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -146,7 +151,8 @@
                                     <td id="tdSellPrice">@item.TotalSellPrice</td>
                                     <td id="tdBuyPrice">@item.TotalBuyPrice</td>
                                     <td id="tddate">@item.TransactionDate</td>
-                                    <td><a href="#" onclick="SaveCampaigen(this)" class="add">Add Campaigen</a></td>
+                                    <td><button type="button" class="btn btn-success btn-sm rounded-pill" onclick="SaveCampaigen(this)">Add Campaigen</button></td>
+
                                 </tr>
                             }
                         </tbody>
@@ -162,6 +168,7 @@
 
         $.noConflict();
         pagination("#tblOnlySell,#tblonlyBuy,#tblBuyGTSell,#tblSellGTBuy");
+        $("th#thbtn").removeClass("sorting");
     });
 
     function SaveCampaigen(event) {

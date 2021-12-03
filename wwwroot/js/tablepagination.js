@@ -19,5 +19,5 @@ function DealTablePagination(tblID) {
     });
     $('.dataTables_length').addClass('bs-select');
     $('.dataTables_length,.dataTables_filter,.dataTables_info,.dataTables_paginate').show();
-    $('.dataTables_length').css("margin-top", "12px");
+    $('.dataTables_length,.dataTables_filter').css("margin-top", "12px");
 }

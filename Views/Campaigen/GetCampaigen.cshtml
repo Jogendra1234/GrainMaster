@@ -4,9 +4,6 @@
     Layout = "~/Views/Shared/_master.cshtml";
 }
 <script src="~/JS/jquery-1.10.2.js"></script>
-<script src="~/JS/jquery.dataTables.min.js"></script>
-<script src="~/JS/dataTables.bootstrap4.min.js"></script>
-<link href="~/Content/dataTables.bootstrap4.min.css" rel="stylesheet" />
 
 @if (ViewBag.Message != null)
 {
@@ -74,7 +71,7 @@
     <script src="~/wwwroot/js/tablepagination.js"></script>
     <script>
         $(document).ready(function () {
-            $.noConflict();
+            //$.noConflict();
             pagination("#table1");
             $("th#thbtn").removeClass("sorting");
         });

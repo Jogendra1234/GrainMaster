@@ -39,7 +39,7 @@ namespace GrainMaster.Controllers
                         RedirectToAction("Login", "Login");
                     }  
                     else if (usersDetail.UserStatus == UserStatus.NotFound)
-                        ViewData["result"] = "Current password is not matching with system password!!";
+                        ViewData["result"] = "Current password is not matching with system data!!";
                 }
                 return View();
             }

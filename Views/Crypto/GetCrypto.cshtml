@@ -17,12 +17,15 @@
     </div>
 }
 <div class="py-4 px-3 px-md-4">
+    <div class="mb-3 mb-md-4 d-flex justify-content-between">
+        <div class="h3 mb-0">Cryptocurrency Screener</div>
+    </div>
     <div class="row">
         <div class="col-12">
             <div class="card mb-3 mb-md-4">
-                <div class="card-header">
+                @*<div class="card-header">
                     <h5 class="font-weight-semi-bold mb-0">Cryptocurrency Screener</h5>
-                </div>
+                </div>*@
 
                 <div class="card-body pt-0">
                     <div class="table-responsive-xl">
@@ -68,7 +71,7 @@
     <script src="~/wwwroot/js/tablepagination.js"></script>
     <script>
         $(document).ready(function () {
-            $.noConflict();
+           // $.noConflict();
             DealTablePagination("#table1");
             $(".thImage").removeClass("sorting_asc");
             $(".thSymbol").addClass("sorting_asc");

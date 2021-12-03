@@ -5,9 +5,6 @@
 }
 
 <script src="~/JS/jquery-1.10.2.js"></script>
-<script src="~/JS/jquery.dataTables.min.js"></script>
-<script src="~/JS/dataTables.bootstrap4.min.js"></script>
-<link href="~/Content/dataTables.bootstrap4.min.css" rel="stylesheet" />
 
 <style type="text/css">
     .card-body > p, #titleHead {
@@ -36,10 +33,11 @@
             Dashboard
         </div>
     </div>
-    <div class="row">
+    <div class="row" style="display:@(Model.NewsRepositoriesModel.Count >0 ? "block" : "none")">
         <div class="col-md-6 col-xl-4 mb-3 mb-md-4">
             @*<div class="card-body pt-0">*@
-             <div class="table-responsive-xl">
+            <div class="table-responsive-xl" >
+                
                 <table class="text-nowrap mb-0 tblNews">
                     <thead>Latest News</thead>
                     <tbody>
@@ -291,7 +289,7 @@
     <script src="~/wwwroot/js/tablepagination.js"></script>
     <script>
         $(document).ready(function () {
-            $.noConflict();
+            //$.noConflict();
             pagination("#table1");
         });
     </script>

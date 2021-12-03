@@ -243,11 +243,6 @@
     </footer>
     <script>
         $(document).ready(function () {
-            //$("#sideNav > li.side-nav-menu-item").click(function () {
-            //    $("li.side-nav-menu-item").removeClass("active");
-            //    $(this).addClass("active");
-            //});
-
             if (localStorage.getItem("UserName") != null) {
                 $("#liPortFolio").removeAttr("style");
                 $("#username").html(localStorage.getItem("UserName").toString());
@@ -256,6 +251,9 @@
     </script>
     <script src="~/public/graindashboard/js/graindashboard.js"></script>
     <script src="~/public/graindashboard/js/graindashboard.vendor.js"></script>
+    <script src="~/JS/jquery.dataTables.min.js"></script>
+    <script src="~/JS/dataTables.bootstrap4.min.js"></script>
+    <link href="~/Content/dataTables.bootstrap4.min.css" rel="stylesheet" />
     <!-- DEMO CHARTS -->
     <script src="~/public/demo/resizeSensor.js"></script>
     <script src="~/public/demo/chartist.js"></script>

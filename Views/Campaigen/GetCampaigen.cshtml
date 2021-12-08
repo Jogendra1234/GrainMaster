@@ -56,7 +56,7 @@
                                         <td class="py-3">₹@item.CurrentPrice</td>
                                         <td class="py-3">@item.Date.ToString("MM/dd/yyyy")</td>
                                         <td class="py-3">0 % </td>
-                                        <td class="py-3">@Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger btn-sm rounded-pill" })</td>
+                                        <td class="py-3">@Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger btn-sm rounded-pill", onclick = "return confirm('Are you sure you wish to delete this Campaigen?');" })</td>
                                     </tr>
                                 }
 
@@ -71,7 +71,6 @@
     <script src="~/wwwroot/js/tablepagination.js"></script>
     <script>
         $(document).ready(function () {
-            //$.noConflict();
             pagination("#table1");
             $("th#thbtn").removeClass("sorting");
         });

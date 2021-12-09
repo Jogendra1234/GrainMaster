@@ -5,7 +5,7 @@ using System.Web.Mvc;
 using GrainMaster.Models;
 
 namespace GrainMaster.Controllers
-{ 
+{
     public class PortFolioController : Controller
     {
         // GET: PortFolio

@@ -4,7 +4,6 @@ using System.Web.Mvc;
 
 namespace GrainMaster.Controllers
 {
-    
     public class DashBoardController : Controller
     {
         // GET: DashBoard

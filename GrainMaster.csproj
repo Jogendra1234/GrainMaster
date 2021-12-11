@@ -359,7 +359,7 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
     <Content Include="Views\PortFolio\CreatePortFolio.cshtml" />
     <Content Include="Views\DashBoard\Dashboard.cshtml" />
-    <Content Include="Views\Login\RestPassword.cshtml" />
+    <Content Include="Views\Login\ResetPassword.cshtml" />
     <Content Include="Views\Login\VerifyEmail.cshtml" />
     <Content Include="Views\DashBoard\Settings.cshtml" />
     <Content Include="Views\DashBoard\StaticNonAuth.cshtml" />

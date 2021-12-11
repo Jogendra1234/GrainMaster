@@ -53,7 +53,14 @@ namespace GrainMaster.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult RestPassword()
+        public ActionResult ResetPassword()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult ResetPassword(FormCollection formCollection)
         {
             return View();
         }

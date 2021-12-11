@@ -262,6 +262,10 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @if(Model == null && Model.PortFolioList == null)
+                                {
+                                    <tr><td colspan="5" class="text-danger text-center">No Record found.</td></tr>
+                                }
                                 @if (Model != null && Model.PortFolioList != null)
                                 {
                                     foreach (var item in Model.PortFolioList)

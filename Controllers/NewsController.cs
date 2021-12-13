@@ -6,8 +6,12 @@ namespace GrainMaster.Controllers
     public class NewsController : Controller
     {
         // GET: News
-        public ViewResult Get(string CName)
+        public ActionResult Get(string CName)
         {
+            if (UserLogic.LoggedUser.Name == null)
+            {
+                return RedirectToAction("Login", "Login");
+            }
             return View(News.GetNewsDetail(CName));
         }
         public ViewResult GetAll()

@@ -9,6 +9,10 @@ namespace GrainMaster.Controllers
         // GET: DashBoard
         public ActionResult Dashboard()
         {
+            if (UserLogic.LoggedUser.Name == null)
+            {
+                return RedirectToAction("Login", "Login");
+            }
             return View(PortFolio.GetByID());
         }
 

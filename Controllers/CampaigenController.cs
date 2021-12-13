@@ -7,6 +7,7 @@ namespace GrainMaster.Controllers
     
     public class CampaigenController : Controller
     {
+
         [HttpPost]
         public ActionResult InsertCampaigen(CampaigenModel cryptoModel)
         {
@@ -14,8 +15,12 @@ namespace GrainMaster.Controllers
 
         }
 
-        public ViewResult GetCampaigen()
+        public ActionResult GetCampaigen()
         {
+            if (UserLogic.LoggedUser.Name == null)
+            {
+              return RedirectToAction("Login", "Login");
+            }
             return View(Campaigen.Get());
         }
 

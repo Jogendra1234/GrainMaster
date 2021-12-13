@@ -8,6 +8,10 @@ namespace GrainMaster.Controllers
         // GET: Deal
         public ActionResult GetDeal()
         {
+            if (UserLogic.LoggedUser.Name == null)
+            {
+                return RedirectToAction("Login", "Login");
+            }
             return View(Deal.Get());
         }
     }
